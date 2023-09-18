@@ -1,3 +1,5 @@
+import json
+
 from django.http import HttpResponse, JsonResponse
 
 
@@ -9,12 +11,22 @@ def index(request):
 
 
 def addPaper(request):
-    obj = Paper(title="Ronaldo", shift="NIGHT", professor_id=1, stand_number=1)
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
 
-    obj.save()
+    if request.method == 'POST':
+        title = str(body.get('title'))
+        shift = str(body.get('shift'))
+        professor_id = int(body.get('professor_id'))
+        stand_number = int(body.get('stand_number'))
 
-    return HttpResponse("Paper saved")
+        obj = Paper(title=title, shift=shift, professor_id=professor_id, stand_number=stand_number)
 
+        obj.save()
+
+        return HttpResponse("Paper saved")
+    else:
+        return HttpResponse("Invalid request method", status=400)
 
 def getAllPapers(request):
     papers = Paper.objects.all()
