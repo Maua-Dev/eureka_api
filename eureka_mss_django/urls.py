@@ -20,4 +20,5 @@ from mss import views
 
 urlpatterns = [
     path('addPaper/', views.addPaper, name='addPaper'),
+    path('getAllPapers/', views.getAllPapers, name='getAllPapers'),
 ]

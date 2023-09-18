@@ -8,7 +8,12 @@ class Paper(models.Model):
     professor_id = models.IntegerField()
     stand_number = models.IntegerField()
 
-    def __str__(self):
-        return self.title
-
+    def __dict__(self):
+        return {
+            "assigment_id": self.assigment_id,
+            "title": self.title,
+            "shift": self.shift,
+            "professor_id": self.professor_id,
+            "stand_number": self.stand_number
+        }
 
