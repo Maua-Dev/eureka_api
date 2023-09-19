@@ -2,8 +2,7 @@ import json
 
 from django.http import HttpResponse, JsonResponse
 
-
-from app.models.models import Paper
+from .models.models import Paper
 
 
 def index(request):
@@ -20,9 +19,7 @@ def addPaper(request):
         professor_id = int(body.get('professor_id'))
         stand_number = int(body.get('stand_number'))
 
-        obj = Paper(title=title, shift=shift, professor_id=professor_id, stand_number=stand_number)
-
-        obj.save()
+        Paper.objects.create(title=title, shift=shift, professor_id=professor_id, stand_number=stand_number)
 
         return HttpResponse("Paper saved")
     else:
@@ -31,5 +28,5 @@ def addPaper(request):
 def getAllPapers(request):
     papers = Paper.objects.all()
 
-    return JsonResponse([paper.__dict__() for paper in papers], safe=False)
+    return JsonResponse([paper.to_dict() for paper in papers], safe=False)
 
