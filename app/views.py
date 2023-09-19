@@ -4,11 +4,6 @@ from django.http import HttpResponse, JsonResponse
 
 from .models.models import Paper
 
-
-def index(request):
-    return HttpResponse("Hello, world. You're at the app index.")
-
-
 def addPaper(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
