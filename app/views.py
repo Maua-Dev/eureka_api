@@ -25,3 +25,30 @@ def getAllPapers(request):
 
     return JsonResponse([paper.to_dict() for paper in papers], safe=False)
 
+def getPaperById(request, id):
+    paper = Paper.objects.get(assigment_id=id)
+
+    return JsonResponse(paper.to_dict(), safe=False)
+
+def updatePaper(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+
+    if request.method == 'PUT':
+        id = int(body.get('assigment_id'))
+        title = str(body.get('title'))
+        shift = str(body.get('shift'))
+        professor_id = int(body.get('professor_id'))
+        stand_number = int(body.get('stand_number'))
+
+        paper = Paper.objects.get(assigment_id=id)
+        paper.title = title
+        paper.shift = shift
+        paper.professor_id = professor_id
+        paper.stand_number = stand_number
+        paper.save()
+
+        return HttpResponse("Paper updated")
+    else:
+        return HttpResponse("Invalid request method", status=400)
+

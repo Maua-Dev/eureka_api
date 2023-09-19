@@ -21,4 +21,6 @@ from app import views
 urlpatterns = [
     path('addPaper', views.addPaper, name='addPaper'),
     path('getAllPapers/', views.getAllPapers, name='getAllPapers'),
+    path('getPaperById/<int:id>', views.getPaperById, name='getPaperById'),
+    path('updatePaper', views.updatePaper, name='updatePaper'),
 ]
