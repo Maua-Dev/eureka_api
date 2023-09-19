@@ -1,5 +1,5 @@
 """
-WSGI config for eureka_mss_django project.
+WSGI config for eureka_api project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'eureka_mss_django.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'eureka_api.settings')
 
 application = get_wsgi_application()

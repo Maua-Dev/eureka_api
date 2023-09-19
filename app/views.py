@@ -3,11 +3,11 @@ import json
 from django.http import HttpResponse, JsonResponse
 
 
-from mss.models.models import Paper
+from app.models.models import Paper
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the mss index.")
+    return HttpResponse("Hello, world. You're at the app index.")
 
 
 def addPaper(request):
