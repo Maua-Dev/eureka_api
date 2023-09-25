@@ -2,7 +2,7 @@ import json
 
 from django.http import HttpResponse, JsonResponse
 
-from .models.models import Paper
+from .models.models import Paper, Professor
 
 def addPaper(request):
     body_unicode = request.body.decode('utf-8')
@@ -22,8 +22,9 @@ def addPaper(request):
 
 def getAllPapers(request):
     papers = Paper.objects.all()
+    professors = Professor.objects.all()
 
-    return JsonResponse([paper.to_dict() for paper in papers], safe=False)
+    return JsonResponse([paper.to_dict() for paper in professors], safe=False)
 
 def getPaperById(request, id):
     paper = Paper.objects.get(assigment_id=id)
