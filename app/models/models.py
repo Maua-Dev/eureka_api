@@ -9,7 +9,7 @@ class Paper(models.Model):
     stand_number = models.CharField(max_length=255)
 
     class Meta:
-        app_label = "app_paper"
+        app_label = 'app_paper'
 
     def to_dict(self):
         return {
@@ -26,8 +26,8 @@ class Professor(models.Model):
     name = models.CharField(max_length=255)
     rf = models.CharField(max_length=255)
     
-    class Meta:
-        app_label = "app_professor"
+    # class Meta:
+    #     app_label = 'app_professor'
 
     def to_dict(self):
         return {
@@ -43,7 +43,7 @@ class Student(models.Model):
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE, default=None, null=True)
 
     class Meta:
-        app_label = "app_student"
+        app_label = 'app_student'
 
     def to_dict(self):
         return {

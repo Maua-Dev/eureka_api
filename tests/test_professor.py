@@ -1,8 +1,11 @@
 import pytest
+from app.models.models import Professor
+from app.views import getAllPapers
+from tests.MockDB import MockDB
 
 
-class TestProfessorModel:
-    def test_professor_model(self, professor_factory):
-        assert True
-        # professor = professor_factory()
-        # assert professor.professor_id == '0'
+@pytest.mark.django_db
+def test_my_user():
+    MockDB()
+    professors = Professor.objects.all()
+    assert len(professors) == 2
