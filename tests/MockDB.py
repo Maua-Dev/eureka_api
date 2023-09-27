@@ -1,6 +1,7 @@
 from app.models.models import Professor
 
 
+
 class MockDB:
     def __init__(self):
         Professor.objects.create(professor_id=0, name="Joao Branco", rf="ABC")
