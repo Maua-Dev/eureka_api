@@ -8,9 +8,6 @@ class Paper(models.Model):
     professors = models.ManyToManyField('Professor')
     stand_number = models.CharField(max_length=255)
 
-    class Meta:
-        app_label = 'app_paper'
-
     def to_dict(self):
         return {
             "paper_id": self.paper_id,
@@ -26,9 +23,6 @@ class Professor(models.Model):
     name = models.CharField(max_length=255)
     rf = models.CharField(max_length=255)
     
-    # class Meta:
-    #     app_label = 'app_professor'
-
     def to_dict(self):
         return {
             "professor_id": self.professor_id,
@@ -41,9 +35,6 @@ class Student(models.Model):
     name = models.CharField(max_length=255)
     ra = models.CharField(max_length=255)
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE, default=None, null=True)
-
-    class Meta:
-        app_label = 'app_student'
 
     def to_dict(self):
         return {

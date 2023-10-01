@@ -1,7 +1,7 @@
 import pytest
 from app.models.models import Professor
 from app.views import getAllPapers
-from tests.MockDB import MockDB
+from tests.mock_repository import MockDB
 from tests.views_test import addProfessor
 
 
