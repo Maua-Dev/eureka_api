@@ -1,51 +1,17 @@
+from app.controllers.professor.get_all_professors_controller import GetAllProfessorsController
+from app.helpers.http.django_http_request import DjangoHttpRequest
+from app.helpers.http.django_http_response import DjangoHttpResponse
+from app.models.repos.professor.professor_repo_mock import ProfessorRepoMock
+
+repo = ProfessorRepoMock()
+
 class ProfessorViews:
-    def __init__(self): pass
-    
-    def addProfessor(request):
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
+    @staticmethod
+    def get_all_professors(request):
+        print(f"\n\n==== {repo.get_all_professors()} ====\n\n")
+        controller = GetAllProfessorsController(repo)
+        http_request = DjangoHttpRequest(request)
+        response = controller(http_request)
+        http_response = DjangoHttpResponse(body=response.body, status_code=response.status_code, message=response.message)
 
-        if request.method == 'POST':
-            title = str(body.get('title'))
-            shift = str(body.get('shift'))
-            professor_id = int(body.get('professor_id'))
-            stand_number = int(body.get('stand_number'))
-
-            Paper.objects.create(title=title, shift=shift, professor_id=professor_id, stand_number=stand_number)
-
-            return HttpResponse("Paper saved")
-        else:
-            return HttpResponse("Invalid request method", status=400)
-
-    def getAllProfessors(request):
-        papers = Paper.objects.all()
-
-        return JsonResponse([paper.to_dict() for paper in papers], safe=False)
-
-    def getProfessorById(request, id):
-        paper = Paper.objects.get(assigment_id=id)
-
-        return JsonResponse(paper.to_dict(), safe=False)
-
-    def updateProfessor(request):
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-
-        if request.method == 'PUT':
-            id = int(body.get('assigment_id'))
-            title = str(body.get('title'))
-            shift = str(body.get('shift'))
-            professor_id = int(body.get('professor_id'))
-            stand_number = int(body.get('stand_number'))
-
-            paper = Paper.objects.get(assigment_id=id)
-            paper.title = title
-            paper.shift = shift
-            paper.professor_id = professor_id
-            paper.stand_number = stand_number
-            paper.save()
-
-            return HttpResponse("Paper updated")
-        else:
-            return HttpResponse("Invalid request method", status=400)
-
+        return http_response.to_django()
