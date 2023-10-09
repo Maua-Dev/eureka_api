@@ -11,7 +11,7 @@ class GetAllProfessorsController(ControllerInterface):
     def __call__(self, request: DjangoHttpRequest):
         try:
             self.error_handling(request)
-            response_data = self.buisiness_logic(request)
+            response_data = self.business_logic(request)
             
             return OK(
                 body=response_data,
@@ -26,5 +26,5 @@ class GetAllProfessorsController(ControllerInterface):
     def error_handling(self, request: DjangoHttpRequest):
         pass
     
-    def buisiness_logic(self, request: DjangoHttpRequest):
+    def business_logic(self, request: DjangoHttpRequest):
         return self.repo.get_all_professors()

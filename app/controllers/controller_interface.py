@@ -16,5 +16,5 @@ class ControllerInterface:
         pass
     
     @abstractmethod
-    def buisiness_logic(self, request: HttpRequestModel):
+    def business_logic(self, request: HttpRequestModel):
         pass
