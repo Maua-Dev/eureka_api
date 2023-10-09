@@ -8,7 +8,6 @@ repo = ProfessorRepoMock()
 class ProfessorViews:
     @staticmethod
     def get_all_professors(request):
-        print(f"\n\n==== {repo.get_all_professors()} ====\n\n")
         controller = GetAllProfessorsController(repo)
         http_request = DjangoHttpRequest(request)
         response = controller(http_request)
