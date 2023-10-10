@@ -15,7 +15,7 @@ class GetAllTasksController(IController):
             response_data = self.business_logic(request)
 
             return OK(
-                body=response_data,
+                body=[task.to_dict() for task in response_data] if type(response_data[0]) != dict else response_data, # TODO: Refactor this (entity? repo use to dict? idk)
                 message="All tasks were successfully retrieved"
             )
 
