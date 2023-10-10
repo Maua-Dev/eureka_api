@@ -2,7 +2,8 @@ import os
 from enum import Enum
 from typing import Type
 
-from app.repos.professor.professor_repo_mock import ProfessorRepoMock
+
+from app.repos.task.task_repository_interface import ITaskRepository
 
 
 class STAGE(Enum):
@@ -40,14 +41,16 @@ class Environments:
         # else:
 
     @staticmethod
-    def get_professor_repo() -> Type[ProfessorRepoMock]:
+    def get_task_repo() -> Type[ITaskRepository]:
         if Environments.get_envs().stage == STAGE.TEST:
-            from app.repos.professor.professor_repo_mock import ProfessorRepoMock
-            return ProfessorRepoMock
+            from app.repos.task.task_repository_mock import TaskRepositoryMock
+            return TaskRepositoryMock
+
         # ELIF TO OTHER STAGES
 
         else:
             raise Exception("No repository found for this stage")
+
 
     @staticmethod
     def get_envs() -> "Environments":
