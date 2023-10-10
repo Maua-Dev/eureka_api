@@ -26,7 +26,7 @@ class Environments:
     def _configure_local(self):
         from dotenv import load_dotenv
         load_dotenv()
-        os.environ["STAGE"] = os.environ.get("STAGE") or STAGE.DOTENV.value
+        os.environ["STAGE"] = STAGE.TEST.value
 
     def load_envs(self):
         if "STAGE" not in os.environ or os.environ["STAGE"] == STAGE.DOTENV.value:
