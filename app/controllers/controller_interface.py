@@ -3,7 +3,7 @@ from app.helpers.http.http_models import HttpRequestModel
 from app.repos.repo_interface import RepoInterface 
 
 
-class ControllerInterface:
+class IController:
     def __init__(self, repo: RepoInterface):
         self.repo = repo
         
