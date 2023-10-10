@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.urls import path
 
-from app.views.professor_views import ProfessorViews
+# from app.views.professor_views import ProfessorViews
 
 
 urlpatterns = [
-    path('getAllProfessors', ProfessorViews.get_all_professors, name='getAllProfessors'),
+    # path('getAllProfessors', ProfessorViews.get_all_professors, name='getAllProfessors'),
 ]
