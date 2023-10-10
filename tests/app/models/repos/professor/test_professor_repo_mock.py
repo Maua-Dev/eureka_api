@@ -1,4 +1,4 @@
-from app.models.repos.professor.professor_repo_mock import ProfessorRepoMock
+from app.repos.professor.professor_repo_mock import ProfessorRepoMock
 from django.test import TestCase
 
 class TestProfessorRepoMock(TestCase):

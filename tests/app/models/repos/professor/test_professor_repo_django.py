@@ -1,4 +1,4 @@
-from app.models.repos.professor.professor_repo_django import ProfessorRepoDjango
+from app.repos.professor.professor_repo_django import ProfessorRepoDjango
 from app.models.models import Professor
 from django.test import TestCase
 

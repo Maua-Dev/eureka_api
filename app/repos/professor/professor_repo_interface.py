@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from app.models.repos.repo_interface import RepoInterface
+from app.repos.repo_interface import RepoInterface
 
 
 class ProfessorRepoInterface(RepoInterface):

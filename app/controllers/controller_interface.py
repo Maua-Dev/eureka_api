@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from app.helpers.http.http_models import HttpRequestModel
-from app.models.repos.repo_interface import RepoInterface 
+from app.repos.repo_interface import RepoInterface 
 
 
 class ControllerInterface:

@@ -1,4 +1,4 @@
-from app.models.repos.professor.professor_repo_interface import ProfessorRepoInterface
+from app.repos.professor.professor_repo_interface import ProfessorRepoInterface
 
 
 class ProfessorRepoMock(ProfessorRepoInterface):

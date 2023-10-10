@@ -1,7 +1,7 @@
 from app.controllers.controller_interface import ControllerInterface
 from app.helpers.http.django_http_request import DjangoHttpRequest
 from app.helpers.http.http_codes import OK, InternalServerError
-from app.models.repos.professor.professor_repo_interface import ProfessorRepoInterface
+from app.repos.professor.professor_repo_interface import ProfessorRepoInterface
 
 
 class GetAllProfessorsController(ControllerInterface):

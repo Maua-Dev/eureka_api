@@ -2,8 +2,7 @@ import os
 from enum import Enum
 from typing import Type
 
-from app.models.repos.professor.professor_repo_interface import ProfessorRepoInterface
-from app.models.repos.professor.professor_repo_mock import ProfessorRepoMock
+from app.repos.professor.professor_repo_mock import ProfessorRepoMock
 
 
 class STAGE(Enum):
@@ -43,7 +42,7 @@ class Environments:
     @staticmethod
     def get_professor_repo() -> Type[ProfessorRepoMock]:
         if Environments.get_envs().stage == STAGE.TEST:
-            from app.models.repos.professor.professor_repo_mock import ProfessorRepoMock
+            from app.repos.professor.professor_repo_mock import ProfessorRepoMock
             return ProfessorRepoMock
         # ELIF TO OTHER STAGES
 
