@@ -8,6 +8,8 @@ class Paper(models.Model):
     professors = models.ManyToManyField('Professor')
     stand_number = models.CharField(max_length=255)
 
+    
+
     def to_dict(self):
         return {
             "paper_id": self.paper_id,
@@ -22,7 +24,7 @@ class Professor(models.Model):
     professor_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     rf = models.CharField(max_length=255)
-
+    
     def to_dict(self):
         return {
             "professor_id": self.professor_id,

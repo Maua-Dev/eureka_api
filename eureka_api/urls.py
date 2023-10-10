@@ -16,11 +16,14 @@ Including another URLconf
 """
 from django.urls import path
 
-from app import views
+from app import views_first_example
+from app.views.professor_views import ProfessorViews
+
 
 urlpatterns = [
-    path('addPaper', views.addPaper, name='addPaper'),
-    path('getAllPapers/', views.getAllPapers, name='getAllPapers'),
-    path('getPaperById/<int:id>', views.getPaperById, name='getPaperById'),
-    path('updatePaper', views.updatePaper, name='updatePaper'),
+    path('addPaper', views_first_example.addPaper, name='addPaper'),
+    path('getAllPapers/', views_first_example.getAllPapers, name='getAllPapers'),
+    path('getPaperById/<int:id>', views_first_example.getPaperById, name='getPaperById'),
+    path('updatePaper', views_first_example.updatePaper, name='updatePaper'),
+    path('getAllProfessors', ProfessorViews.get_all_professors, name='getAllProfessors'),
 ]
