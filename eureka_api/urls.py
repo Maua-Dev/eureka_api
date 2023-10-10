@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.urls import path
 
-# from app.views.professor_views import ProfessorViews
-
+from app.views.task_views import TaskViews
 
 urlpatterns = [
     # path('getAllProfessors', ProfessorViews.get_all_professors, name='getAllProfessors'),
+    path('getAllTasks', TaskViews.get_all_tasks, name='getAllTasks'),
+
 ]
