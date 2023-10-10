@@ -1,9 +1,10 @@
 from app.controllers.professor.get_all_professors_controller import GetAllProfessorsController
+from app.environments import Environments
 from app.helpers.http.django_http_request import DjangoHttpRequest
 from app.helpers.http.django_http_response import DjangoHttpResponse
 from app.models.repos.professor.professor_repo_mock import ProfessorRepoMock
 
-repo = ProfessorRepoMock()
+repo = Environments.get_professor_repo()()
 
 class ProfessorViews:
     @staticmethod
