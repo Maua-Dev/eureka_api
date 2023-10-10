@@ -11,43 +11,43 @@ class TaskRepositoryMock(ITaskRepository):
         self.tasks = [
             {
                 "task_id": 1,
-                "name": "Dados do trabalho",
+                "title": "Dados do trabalho",
                 "delivery_date": "2023-05-15",
                 "responsible": USER_ROLE.STUDENT.value
             },
             {
                 "task_id": 2,
-                "name": "Dados do trabalho",
+                "title": "Dados do trabalho",
                 "delivery_date": "2023-05-22",
                 "responsible": USER_ROLE.ADVISOR.value
             },
             {
                 "task_id": 3,
-                "name": "Dados do trabalho",
+                "title": "Dados do trabalho",
                 "delivery_date": "2023-09-14",
                 "responsible": USER_ROLE.RESPONSIBLE.value
             },
             {
                 "task_id": 4,
-                "name": "Pôster Técnico (PDF)",
+                "title": "Pôster Técnico (PDF)",
                 "delivery_date": "2023-10-01",
                 "responsible": USER_ROLE.STUDENT.value
             },
             {
                 "task_id": 5,
-                "name": "Pôster Técnico (PDF)",
+                "title": "Pôster Técnico (PDF)",
                 "delivery_date": "2023-10-03",
                 "responsible": USER_ROLE.ADVISOR.value
             },
             {
                 "task_id": 6,
-                "name": "Pôster Imagem",
+                "title": "Pôster Imagem",
                 "delivery_date": "2023-09-17",
                 "responsible": USER_ROLE.STUDENT.value
             },
             {
                 "task_id": 7,
-                "name": "Pôster Imagem",
+                "title": "Pôster Imagem",
                 "delivery_date": "2023-09-20",
                 "responsible": USER_ROLE.ADVISOR.value
             },
