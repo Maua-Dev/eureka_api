@@ -46,7 +46,9 @@ class Environments:
             from app.repos.task.task_repository_mock import TaskRepositoryMock
             return TaskRepositoryMock
 
-        # ELIF TO OTHER STAGES
+        elif Environments.get_envs().stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
+            from app.repos.task.task_repository_postgres import TaskRepositoryPostgres
+            return TaskRepositoryPostgres
 
         else:
             raise Exception("No repository found for this stage")
