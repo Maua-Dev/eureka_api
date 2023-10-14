@@ -5,7 +5,7 @@ from django.test import TestCase
 from app.models import Task
 
 
-class TestrRepositoryPostgres(TestCase):
+class TestTaskRepositoryPostgres(TestCase):
     def setUp(self):
         Task.objects.create(task_id=0, title="Delivery 1", delivery_date="2023-05-15", responsible="STUDENT")
         Task.objects.create(task_id=1, title="Delivery 1", delivery_date="2023-05-22", responsible="ADVISOR")
