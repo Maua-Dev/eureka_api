@@ -7,7 +7,8 @@ from app.repos.task.task_repository_postgres import TaskRepositoryPostgres
 
 
 class TestTaskRepositoryPostgres(TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         Task.objects.create(task_id=0, title="Delivery 1", delivery_date="2023-05-15", responsible="STUDENT")
         Task.objects.create(task_id=1, title="Delivery 1", delivery_date="2023-05-22", responsible="ADVISOR")
         Task.objects.create(task_id=2, title="Delivery 1", delivery_date="2023-09-14", responsible="RESPONSIBLE")
