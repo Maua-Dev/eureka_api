@@ -6,7 +6,8 @@ from app.repos.project.project_repository_postgres import ProjectRepositoryPostg
 
 class TestProjectRepositoryPostgres(TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         User.objects.create(user_id=1, name='VITOR GUIRAO SOLLER', email='21.01444-2@maua.br', role='STUDENT')
         User.objects.create(user_id=2, name='JOAO VITOR CHOUERI BRANCO', email='21.01075-7@maua.br', role='STUDENT')
         User.objects.create(user_id=3, name='BRUNO VILARDI BUENO', email='19.00331-5@maua.br', role='STUDENT')
@@ -37,7 +38,6 @@ class TestProjectRepositoryPostgres(TestCase):
         assert Project.objects.count() == count + 1
 
     def test_update_project(self):
-        setUp(self)
         repo = ProjectRepositoryPostgres()
 
         project = {
