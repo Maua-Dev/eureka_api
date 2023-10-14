@@ -3,6 +3,7 @@ import datetime
 from django.test import TestCase
 
 from app.models import Task
+from app.repos.task.task_repository_postgres import TaskRepositoryPostgres
 
 
 class TestTaskRepositoryPostgres(TestCase):
@@ -14,7 +15,8 @@ class TestTaskRepositoryPostgres(TestCase):
         Task.objects.create(task_id=4, title="Delivery 2", delivery_date="2023-10-03", responsible="ADVISOR")
 
     def test_get_all_tasks(self):
-        tasks = Task.objects.all()
+        repo = TaskRepositoryPostgres()
+        tasks = repo.get_all_tasks()
         assert len(tasks) == 5
         assert tasks[0].task_id == 0
         assert tasks[0].title == "Delivery 1"
