@@ -19,7 +19,6 @@ from django.urls import path
 from app.views.task_views import TaskViews
 
 urlpatterns = [
-    # path('getAllProfessors', ProfessorViews.get_all_professors, name='getAllProfessors'),
-    path('getAllTasks', TaskViews.get_all_tasks, name='getAllTasks'),
+    path('get_all_tasks', TaskViews.get_all_tasks, name='get_all_tasks'),
 
 ]
