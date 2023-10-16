@@ -10,6 +10,7 @@ class TestCreateProjectController(TestCase):
     # def setUp(self):
     #     self.factory = RequestFactory()
 
+
     def test_create_project_controller(self):
         request = DjangoHttpRequest(
             request=None,
@@ -46,6 +47,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "title": None,
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
                 "shift": "DIURNO",
@@ -62,7 +64,6 @@ class TestCreateProjectController(TestCase):
 
         assert response.status_code == 400
         assert response.message == "Field title is missing for method create_project"
-
 
 
 

@@ -34,7 +34,7 @@ class CreateProjectController(IController):
             raise MissingParameters('body', 'create_project')
 
         data = request.data
-        if data.get('title') == None:
+        if data.get('title') is None:
             raise MissingParameters('title', 'create_project')
 
         if data.get('qualification') is None:
