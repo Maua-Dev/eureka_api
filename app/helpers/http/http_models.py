@@ -14,7 +14,13 @@ class HttpRequestModel:
             self.method = request.method
         
         if type(kwargs) == dict:
-            self.data.update(kwargs)
+            data = kwargs.get("data")
+            if(data != None):
+                self.data.update(data)
+            
+            method = kwargs.get("method")
+            if(method != None):
+                self.method = method
 
     def __repr__(self):
         return (

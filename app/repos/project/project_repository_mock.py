@@ -16,7 +16,6 @@ class ProjectRepositoryMock(IProjectRepository):
                     'professors': [1, 2, 3],
                     'students': [4, 5],
                 }
-
             ]
 
         def get_project(self, project_id: int):
@@ -26,6 +25,10 @@ class ProjectRepositoryMock(IProjectRepository):
             return None
 
         def create_project(self, project):
+            project['is_entrepreneurship'] = project.get("is_entrepreneurship", False)
+            project['students'] = project.get("students", [])
+            project["project_id"] = len(self.projects) + 1
+            
             self.projects.append(project)
             return project
 

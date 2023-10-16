@@ -18,3 +18,4 @@ class IController:
     @abstractmethod
     def business_logic(self, request: HttpRequestModel):
         pass
+    

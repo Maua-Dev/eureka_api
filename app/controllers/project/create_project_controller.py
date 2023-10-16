@@ -1,11 +1,11 @@
 from app.controllers.controller_interface import IController
 from app.helpers.errors.common_errors import MissingParameters
-from app.helpers.http.http_codes import InternalServerError, OK, BadRequest
+from app.helpers.http.http_codes import Created, InternalServerError, BadRequest
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.project.project_repository_interface import IProjectRepository
 
 
-class CreateController(IController):
+class CreateProjectController(IController):
 
     def __init__(self, repo: IProjectRepository):
         super().__init__(repo)
@@ -16,13 +16,13 @@ class CreateController(IController):
             self.error_handling(request)
             response_data = self.business_logic(request)
 
-            return OK(
-                body=[project.to_dict() for project in response_data] if type(response_data[0]) != dict else response_data, # TODO: Refactor this (entity? repo use to dict? idk)
-                message="All tasks were successfully retrieved"
+            return Created(
+                body=response_data,
+                message="The project was created successfully"
             )
 
         except MissingParameters as err:
-            return BadRequest(body=err.message)
+            return BadRequest(message=err.message)
 
         except Exception as err:
             return InternalServerError(
@@ -30,11 +30,11 @@ class CreateController(IController):
             )
 
     def error_handling(self, request: HttpRequestModel):
-        if request.POST is None:
+        if request.method != "POST":
             raise MissingParameters('body', 'create_project')
 
-        data = request.POST
-        if data.get('title') is None:
+        data = request.data
+        if data.get('title') == None:
             raise MissingParameters('title', 'create_project')
 
         if data.get('qualification') is None:
@@ -56,4 +56,4 @@ class CreateController(IController):
             raise MissingParameters('professors', 'create_project')
 
     def business_logic(self, request: HttpRequestModel):
-        return self.repo.create_project(request.POST)
+        return self.repo.create_project(request.data)

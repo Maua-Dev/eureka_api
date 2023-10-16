@@ -4,6 +4,9 @@ from app.repos.project.project_repository_interface import IProjectRepository
 
 class ProjectRepositoryPostgres(IProjectRepository):
 
+        def __init__(self):
+            pass
+        
         def get_project(self, project_id: int):
             return Project.objects.get(project_id=project_id)
 
@@ -11,9 +14,6 @@ class ProjectRepositoryPostgres(IProjectRepository):
             project_updated = Project.objects.filter(project_id=project['project_id'])
             project_updated.update(**project)
             return project_updated
-
-        def __init__(self):
-            pass
 
         def create_project(self, project):
             professors = User.objects.filter(user_id__in=project['professors'])

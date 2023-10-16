@@ -3,7 +3,7 @@ from django.test import TestCase, RequestFactory
 from app.views.task_views import TaskViews
 
 
-class Test_TaskView(TestCase):
+class TestTaskView(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
 

@@ -4,7 +4,7 @@ from app.controllers.task.get_all_tasks_controller import GetAllTasksController
 from app.repos.task.task_repository_mock import TaskRepositoryMock
 
 
-class Test_GetAllTasksController(TestCase):
+class TestGetAllTasksController(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
