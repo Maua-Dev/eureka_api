@@ -10,6 +10,7 @@ class HttpRequestModel:
             if(len(request.body) == 0):
                 data = {}
             else:
+                print(request.body.decode('utf-8'))
                 self.data = json.loads(request.body.decode('utf-8'))            
             self.method = request.method
         

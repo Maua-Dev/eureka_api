@@ -17,8 +17,10 @@ Including another URLconf
 from django.urls import path
 
 from app.views.task_views import TaskViews
+from app.views.project_views import ProjectViews
 
 urlpatterns = [
     path('get_all_tasks', TaskViews.get_all_tasks, name='get_all_tasks'),
+    path('create_project', ProjectViews.create_project, name='create_project'),
 
 ]

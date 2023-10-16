@@ -7,10 +7,6 @@ from app.repos.project.project_repository_mock import ProjectRepositoryMock
 
 class TestCreateProjectController(TestCase):
 
-    # def setUp(self):
-    #     self.factory = RequestFactory()
-
-
     def test_create_project_controller(self):
         request = DjangoHttpRequest(
             request=None,
