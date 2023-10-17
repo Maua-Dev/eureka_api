@@ -21,6 +21,6 @@ class Project(models.Model):
             "shift": self.shift,
             "stand_number": self.stand_number,
             "is_entrepreneurship": self.is_entrepreneurship,
-            "professors": self.professors,
-            "students": self.students
+            "professors": [professor.to_dict() for professor in self.professors.all()] if self.professors != list else [],
+            "students": [student.to_dict() for student in self.professors.all()] if self.students != list else []
         }
