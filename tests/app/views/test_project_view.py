@@ -26,6 +26,7 @@ class TestProjectView(TestCase):
                 "stand_number": "1",
                 "is_entrepreneurship": False,
                 "professors": [3, 4]
-            }
+            },
+            content_type='application/json'
         )
         assert response.status_code == 201
