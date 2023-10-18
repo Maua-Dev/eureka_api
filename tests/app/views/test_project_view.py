@@ -39,3 +39,11 @@ class TestProjectView(TestCase):
             content_type='application/json'
         )
         assert response.status_code == 200
+
+    def test_get_project_view(self):
+        response = self.client.get('/get_project', {
+                "project_id": 1,
+            },
+            content_type='application/json'
+        )
+        assert response.status_code == 200
