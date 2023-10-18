@@ -38,5 +38,5 @@ class ProjectRepositoryMock(IProjectRepository):
                     for key in project:
                         self.projects[i][key] = project[key]
 
-                    return project
+                    return self.projects[i]
             return None
