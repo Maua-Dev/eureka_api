@@ -29,7 +29,7 @@ class UpdateProjectController(IController):
             )
 
     def error_handling(self, request: HttpRequestModel):
-        if request.method != "POST":
+        if request.method != "PUT":
             raise MissingParameters('body', 'update_project')
 
         data = request.data
