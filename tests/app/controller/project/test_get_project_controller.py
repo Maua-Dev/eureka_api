@@ -37,7 +37,7 @@ class TestGetProjectController(TestCase):
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.message == "Field project_id is missing for method update_project"
+        assert response.message == "Field project_id is missing for method get_project"
 
 
 
