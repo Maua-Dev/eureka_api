@@ -8,7 +8,7 @@ class ProjectRepositoryPostgres(IProjectRepository):
             pass
         
         def get_project(self, project_id: int):
-            return Project.objects.get(project_id=project_id)
+            return Project.objects.get(project_id=project_id).to_dict()
 
         def update_project(self, project):
             project_to_update = Project.objects.get(project_id=project['project_id'])
@@ -31,7 +31,7 @@ class ProjectRepositoryPostgres(IProjectRepository):
 
             project_to_update.save()
 
-            return project_to_update
+            return project_to_update.to_dict()
 
         def create_project(self, project):
             professors = User.objects.filter(user_id__in=project['professors'])
@@ -52,4 +52,4 @@ class ProjectRepositoryPostgres(IProjectRepository):
                 project_created.students.set(students)
                 project_created.save()
 
-            return project_created
+            return project_created.to_dict()

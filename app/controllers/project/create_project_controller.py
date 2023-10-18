@@ -17,7 +17,7 @@ class CreateProjectController(IController):
             response_data = self.business_logic(request)
 
             return Created(
-                body=response_data.to_dict() if type(response_data) != dict else response_data,
+                body=response_data,
                 message="The project was created successfully"
             )
 

@@ -72,5 +72,5 @@ class TestProjectRepositoryPostgres(TestCase):
 
         project = repo.get_project(1)
 
-        assert project.title == 'Teste'
-        assert project.is_entrepreneurship == False
+        assert project['title'] == 'Teste'
+        assert project['is_entrepreneurship'] == False
