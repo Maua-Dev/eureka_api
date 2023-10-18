@@ -22,5 +22,6 @@ from app.views.project_views import ProjectViews
 urlpatterns = [
     path('get_all_tasks', TaskViews.get_all_tasks, name='get_all_tasks'),
     path('create_project', ProjectViews.create_project, name='create_project'),
+    path('update_project', ProjectViews.update_project, name='update_project'),
 
 ]
