@@ -51,6 +51,22 @@ class TestProjectRepositoryPostgres(TestCase):
         assert Project.objects.get(project_id=1).title == 'Teste2'
         assert Project.objects.get(project_id=1).is_entrepreneurship
 
+    def test_update_project_members(self):
+        repo = ProjectRepositoryPostgres()
+
+        project = {
+            "project_id": 1,
+            'title': "Teste2",
+            'students': [1, 2],
+            'professors': [4],
+        }
+
+        repo.update_project(project)
+
+        assert Project.objects.get(project_id=1).students.count() == 2
+        assert Project.objects.get(project_id=1).title == 'Teste2'
+        assert Project.objects.get(project_id=1).professors.count() == 1
+
     def test_get_project(self):
         repo = ProjectRepositoryPostgres()
 

@@ -11,9 +11,27 @@ class ProjectRepositoryPostgres(IProjectRepository):
             return Project.objects.get(project_id=project_id)
 
         def update_project(self, project):
-            project_updated = Project.objects.filter(project_id=project['project_id'])
-            project_updated.update(**project)
-            return project_updated
+            project_to_update = Project.objects.get(project_id=project['project_id'])
+
+            to_update = project
+
+            if 'professors' in project:
+                professors = User.objects.filter(user_id__in=project['professors'])
+                project_to_update.professors.set(professors)
+                to_update.pop('professors')
+
+
+            if 'students' in project:
+                students = User.objects.filter(user_id__in=project['students'])
+                project_to_update.students.set(students)
+                to_update.pop('students')
+
+            for key, value in to_update.items():
+                setattr(project_to_update, key, value)
+
+            project_to_update.save()
+
+            return project_to_update
 
         def create_project(self, project):
             professors = User.objects.filter(user_id__in=project['professors'])
