@@ -43,7 +43,7 @@ Repository for the Eureka backend microservice, programmed in Python using the D
 
 ### Run the tests 🧪
 
-    pytest
+    python manage.py test
 
 ### To run local set .env file 🤗
 
