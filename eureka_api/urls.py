@@ -16,14 +16,12 @@ Including another URLconf
 """
 from django.urls import path
 
-from app import views_first_example
-from app.views.professor_views import ProfessorViews
-
+from app.views.task_views import TaskViews
+from app.views.project_views import ProjectViews
 
 urlpatterns = [
-    path('addPaper', views_first_example.addPaper, name='addPaper'),
-    path('getAllPapers/', views_first_example.getAllPapers, name='getAllPapers'),
-    path('getPaperById/<int:id>', views_first_example.getPaperById, name='getPaperById'),
-    path('updatePaper', views_first_example.updatePaper, name='updatePaper'),
-    path('getAllProfessors', ProfessorViews.get_all_professors, name='getAllProfessors'),
+    path('get_all_tasks', TaskViews.get_all_tasks, name='get_all_tasks'),
+    path('create_project', ProjectViews.create_project, name='create_project'),
+    path('update_project', ProjectViews.update_project, name='update_project'),
+    path('get_project', ProjectViews.get_project, name='get_project'),
 ]
