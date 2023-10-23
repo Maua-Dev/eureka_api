@@ -48,8 +48,10 @@ class CreateDeliveryController(IController):
 
         response = self.repo.create_delivery(request.data)
 
-        content_decode = eval(response['content'].decode('utf-8')) if type(response['content']) == bytes else None
+        content_decode = response['content'].decode('utf-8') if type(response['content']) == bytes else None
 
         response['content'] = content_decode if content_decode is not None else response['content']
+
+        response['content'] = eval(response['content']) if type(response['content']) != str else response['content']
 
         return response
