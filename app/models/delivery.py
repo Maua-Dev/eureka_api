@@ -12,8 +12,8 @@ class Delivery(models.Model):
     def to_dict(self):
         return {
             "delivery_id": self.delivery_id,
-            "task": self.task,
-            "project": self.project,
-            "user": self.user,
+            "task": self.task.to_dict() if self.task != dict else self.task,
+            "project": self.project.to_dict() if self.project != dict else self.project,
+            "user": self.user.to_dict() if self.user != dict else self.user,
             "content": self.content,
         }

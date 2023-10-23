@@ -29,7 +29,7 @@ class Test_DeliveryRepositoryPostgres(TestCase):
             "task": 1,
             "project": 1,
             "user": 3,
-            "content": "Algum conteúdo",
+            "content": b'Algum conte\xc3\xbado',
         }
 
         delivery_expected = {
@@ -89,7 +89,7 @@ class Test_DeliveryRepositoryPostgres(TestCase):
                 'email': '19.00331-5@maua.br',
                 'role': 'STUDENT'
             },
-            'content': 'Algum conteúdo'
+            'content': b'Algum conte\xc3\xbado'
         }
         len_before = Delivery.objects.count()
 
@@ -97,7 +97,7 @@ class Test_DeliveryRepositoryPostgres(TestCase):
         len_after = Delivery.objects.count()
 
         assert len_after == len_before + 1
-        assert delivery_created.to_dict() == delivery_expected
+        assert delivery_created == delivery_expected
 
     def test_create_delivery_invalid_task(self):
         repo = DeliveryRepositoryPostgres()
