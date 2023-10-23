@@ -61,8 +61,10 @@ class CreateDeliveryController(IController):
 
         content_decode = response['content'].decode('utf-8') if type(response['content']) == bytes else None
 
-        response['content'] = content_decode if content_decode is not None else response['content']
+        try:
+            response['content'] = eval(content_decode)
 
-        response['content'] = eval(response['content']) if type(response['content']) != str else response['content']
+        except:
+            response['content'] = content_decode
 
         return response
