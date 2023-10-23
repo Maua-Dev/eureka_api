@@ -62,3 +62,4 @@ class DeliveryRepositoryMock(IDeliveryRepository):
     def create_delivery(self, delivery):
         delivery["delivery_id"] = len(self.deliveries) + 1
         self.deliveries.append(delivery)
+        return delivery
