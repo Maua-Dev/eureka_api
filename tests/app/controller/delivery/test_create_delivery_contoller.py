@@ -13,7 +13,6 @@ class Test_CreateDeliveryController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
-                "task_id": 1,
                 "project_id": 1,
                 "user_id": 3,
                 "content": {
