@@ -26,9 +26,9 @@ class Test_DeliveryRepositoryPostgres(TestCase):
     def test_create_delivery(self):
         repo = DeliveryRepositoryPostgres()
         delivery = {
-            "task": 1,
-            "project": 1,
-            "user": 3,
+            "task_id": 1,
+            "project_id": 1,
+            "user_id": 3,
             "content": b'Algum conte\xc3\xbado',
         }
 
@@ -102,9 +102,9 @@ class Test_DeliveryRepositoryPostgres(TestCase):
     def test_create_delivery_invalid_task(self):
         repo = DeliveryRepositoryPostgres()
         delivery = {
-            "task": 3,
-            "project": 1,
-            "user": 3,
+            "task_id": 3,
+            "project_id": 1,
+            "user_id": 3,
             "content": "Algum conteúdo",
         }
 

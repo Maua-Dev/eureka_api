@@ -9,9 +9,9 @@ class DeliveryRepositoryPostgres(IDeliveryRepository):
 
     def create_delivery(self, delivery):
         try:
-            project_set = Project.objects.get(project_id=delivery['project'])
-            user_set = User.objects.get(user_id=delivery['user'])
-            task_set = Task.objects.get(task_id=delivery['task'])
+            project_set = Project.objects.get(project_id=delivery['project_id'])
+            user_set = User.objects.get(user_id=delivery['user_id'])
+            task_set = Task.objects.get(task_id=delivery['task_id'])
         except:
             return None
 
