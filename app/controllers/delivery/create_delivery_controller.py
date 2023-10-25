@@ -51,11 +51,6 @@ class CreateDeliveryController(IController):
             raise MissingParameters('content', 'create_delivery')
 
     def business_logic(self, request: HttpRequestModel):
-        if type(request.data['content']) == str:
-            request.data['content'] = request.data['content'].encode('utf-8')
-
-        if type(request.data['content']) == dict:
-            request.data['content'] = json.dumps(request.data['content']).encode('utf-8')
 
         response = self.repo.create_delivery(request.data)
 

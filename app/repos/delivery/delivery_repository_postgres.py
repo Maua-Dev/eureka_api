@@ -4,6 +4,7 @@ from app.repos.delivery.delivery_repository_interface import IDeliveryRepository
 
 class DeliveryRepositoryPostgres(IDeliveryRepository):
 
+
     def __init__(self):
         pass
 
@@ -45,12 +46,32 @@ class DeliveryRepositoryPostgres(IDeliveryRepository):
 
         delivery_dict = delivery.to_dict()
 
-        content_decode = delivery_dict['content'].decode('utf-8') if type(delivery_dict['content']) == bytes else delivery_dict['content']
+        return delivery_dict
 
+
+    def get_delivery(self, delivery_id):
         try:
-            delivery_dict['content'] = eval(content_decode)
-
+            delivery_set = Delivery.objects.get(delivery_id=delivery_id)
         except:
-            delivery_dict['content'] = content_decode
+            return None
+
+        if not delivery_set:
+            return None
+
+        delivery_dict = delivery_set.to_dict()
 
         return delivery_dict
+
+    def get_deliveries(self, project_id):
+        try:
+            deliveries_set = Delivery.objects.filter(project_id=project_id)
+        except:
+            return None
+
+        if not deliveries_set:
+            return None
+
+        deliveries = [delivery.to_dict() for delivery in deliveries_set]
+
+        return deliveries
+

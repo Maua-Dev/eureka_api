@@ -4,6 +4,7 @@ from app.repos.delivery.delivery_repository_interface import IDeliveryRepository
 
 
 class DeliveryRepositoryMock(IDeliveryRepository):
+
     deliveries: List[Dict[str, str]]
 
     def __init__(self):
@@ -13,7 +14,7 @@ class DeliveryRepositoryMock(IDeliveryRepository):
                 "task": 1,
                 "project": 1,
                 "user": 4,
-                "content": "Algum conteúdo",
+                "content": {"content": "Algum conteúdo"},
                 "delivery_date": "2023-05-15"
             },
             {
@@ -21,7 +22,7 @@ class DeliveryRepositoryMock(IDeliveryRepository):
                 "task": 2,
                 "project": 1,
                 "user": 1,
-                "content": "Orientador do projeto",
+                "content": {"content": "Entrega do orientador"},
                 "delivery_date": "2023-05-22"
             },
             {
@@ -29,7 +30,9 @@ class DeliveryRepositoryMock(IDeliveryRepository):
                 "task": 3,
                 "project": 1,
                 "user": 2,
-                "content": "Responsável pelo projeto",
+                "content": {
+                    "content": "Responsável pelo projeto"
+                },
                 "delivery_date": "2023-09-14"
             },
             {
@@ -37,7 +40,9 @@ class DeliveryRepositoryMock(IDeliveryRepository):
                 "task": 4,
                 "project": 1,
                 "user": 5,
-                "content": "Algum conteúdo Aluno de novo",
+                "content": {
+                    "content": "Algum conteúdo Aluno de novo"
+                },
                 "delivery_date": "2023-10-01"
             },
             {
@@ -45,7 +50,8 @@ class DeliveryRepositoryMock(IDeliveryRepository):
                 "task": 5,
                 "project": 1,
                 "user": 3,
-                "content": "Aprovado",
+                "content":
+                    {"content": "Aprovado"},
                 "delivery_date": "2023-10-03"
             },
             {
@@ -53,13 +59,20 @@ class DeliveryRepositoryMock(IDeliveryRepository):
                 "task": 6,
                 "project": 1,
                 "user": 5,
-                "content": "Algum conteúdo",
+                "content": {
+                    "content": "Algum conteúdo Aluno de novo"
+                },
                 "delivery_date": "2023-09-17"
             },
             ]
-
 
     def create_delivery(self, delivery):
         delivery["delivery_id"] = len(self.deliveries) + 1
         self.deliveries.append(delivery)
         return delivery
+
+    def get_delivery(self, delivery_id):
+        return next((delivery for delivery in self.deliveries if delivery["delivery_id"] == delivery_id), None)
+
+    def get_deliveries(self, project_id):
+        return [delivery for delivery in self.deliveries if delivery["project"] == project_id]

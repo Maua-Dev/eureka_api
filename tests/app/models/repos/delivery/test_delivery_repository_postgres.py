@@ -23,17 +23,19 @@ class Test_DeliveryRepositoryPostgres(TestCase):
         project.students.add(1, 2, 3)
         project.save()
 
+        Delivery.objects.create(task_id=2, project_id=1, user_id=4, content={"content": "Algum conteúdo"})
+
     def test_create_delivery(self):
         repo = DeliveryRepositoryPostgres()
         delivery = {
             "task_id": 1,
             "project_id": 1,
             "user_id": 3,
-            "content": 'Algum conteúdo',
+            "content": {"content": "Algum conteúdo"},
         }
 
         delivery_expected = {
-            'delivery_id': 1,
+            'delivery_id': 2,
             'task': {
                 'task_id': 1,
                 'title': 'Dados do Trabalho',
@@ -89,7 +91,7 @@ class Test_DeliveryRepositoryPostgres(TestCase):
                 'email': '19.00331-5@maua.br',
                 'role': 'STUDENT'
             },
-            'content': 'Algum conteúdo'
+            'content': {"content": "Algum conteúdo"}
         }
         len_before = Delivery.objects.count()
 
@@ -111,3 +113,29 @@ class Test_DeliveryRepositoryPostgres(TestCase):
         delivery_created = repo.create_delivery(delivery)
 
         assert delivery_created is None
+
+    def test_get_delivery(self):
+        repo = DeliveryRepositoryPostgres()
+        delivery_id = 1
+
+        delivery = repo.get_delivery(delivery_id)
+
+        assert delivery['delivery_id'] == delivery_id
+        assert delivery['task']['task_id'] == 2
+        assert delivery['project']['project_id'] == 1
+        assert delivery['user']['user_id'] == 4
+        assert delivery['content'] == {"content": "Algum conteúdo"}
+
+
+    def test_get_deliveries(self):
+        repo = DeliveryRepositoryPostgres()
+        project_id = 1
+
+        deliveries = repo.get_deliveries(project_id)
+
+        assert len(deliveries) == 1
+        assert deliveries[0]['delivery_id'] == 1
+        assert deliveries[0]['task']['task_id'] == 2
+        assert deliveries[0]['project']['project_id'] == 1
+        assert deliveries[0]['user']['user_id'] == 4
+        assert deliveries[0]['content'] == {"content": "Algum conteúdo"}

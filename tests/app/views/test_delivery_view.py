@@ -12,7 +12,7 @@ class Test_DeliveryView(TestCase):
             "task_id": 1,
             "project_id": 1,
             "user_id": 1,
-            "content": "content"
+            "content": {"content": "Algum conteúdo"},
         },
         content_type='application/json')
 
