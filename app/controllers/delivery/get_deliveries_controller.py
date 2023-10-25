@@ -16,6 +16,9 @@ class GetDeliveriesController(IController):
 
         try:
             self.error_handling(request)
+
+            request.data['project_id'] = int(request.data['project_id'])
+
             response_data = self.business_logic(request)
 
             return OK(
@@ -39,6 +42,10 @@ class GetDeliveriesController(IController):
 
         if request.data.get('project_id') is None:
             raise MissingParameters('project_id', 'get_deliveries')
+
+        if type(request.data.get('project_id')) == str and not request.data.get('project_id').isdecimal():
+            raise MissingParameters('project_id', 'get_deliveries')
+
 
     def business_logic(self, request: HttpRequestModel):
         response = self.repo.get_deliveries(request.data['project_id'])
