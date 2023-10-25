@@ -43,4 +43,14 @@ class DeliveryRepositoryPostgres(IDeliveryRepository):
         )
         delivery.save()
 
-        return delivery.to_dict()
+        delivery_dict = delivery.to_dict()
+
+        content_decode = delivery_dict['content'].decode('utf-8') if type(delivery_dict['content']) == bytes else delivery_dict['content']
+
+        try:
+            delivery_dict['content'] = eval(content_decode)
+
+        except:
+            delivery_dict['content'] = content_decode
+
+        return delivery_dict

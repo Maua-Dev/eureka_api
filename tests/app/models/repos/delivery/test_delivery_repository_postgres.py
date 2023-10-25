@@ -29,7 +29,7 @@ class Test_DeliveryRepositoryPostgres(TestCase):
             "task_id": 1,
             "project_id": 1,
             "user_id": 3,
-            "content": b'Algum conte\xc3\xbado',
+            "content": 'Algum conteúdo',
         }
 
         delivery_expected = {
@@ -89,7 +89,7 @@ class Test_DeliveryRepositoryPostgres(TestCase):
                 'email': '19.00331-5@maua.br',
                 'role': 'STUDENT'
             },
-            'content': b'Algum conte\xc3\xbado'
+            'content': 'Algum conteúdo'
         }
         len_before = Delivery.objects.count()
 
