@@ -35,10 +35,10 @@ class HttpRequestModel:
 
 class HttpResponseModel:
     status_code: int = 200
-    body: dict = {}
+    body: dict
     message: str = "Valid request"
     
-    def __init__(self, body: dict = {}, status_code: int = 200, message: str = "Valid request"):
+    def __init__(self, body: dict, status_code: int = 200, message: str = "Valid request"):
         self.status_code = status_code
         self.body = body
         self.message = message
