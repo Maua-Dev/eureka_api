@@ -41,5 +41,5 @@ class GetDeliveriesController(IController):
             raise MissingParameters('project_id', 'get_deliveries')
 
     def business_logic(self, request: HttpRequestModel):
-        response = self.repo.get_deliveries(request.data)
+        response = self.repo.get_deliveries(request.data['project_id'])
         return response
