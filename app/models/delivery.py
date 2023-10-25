@@ -6,7 +6,7 @@ class Delivery(models.Model):
     task = models.ForeignKey('Task', on_delete=models.CASCADE)
     project = models.ForeignKey('Project', on_delete=models.CASCADE)
     user = models.ForeignKey('User', on_delete=models.CASCADE, )
-    content = models.CharField()
+    content = models.JSONField()
     date = models.DateTimeField(auto_now_add=True)
 
     def to_dict(self):
