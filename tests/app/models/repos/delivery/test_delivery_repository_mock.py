@@ -8,9 +8,9 @@ class Test_DeliveryRepositoryMock(TestCase):
         repo = DeliveryRepositoryMock()
         delivery = {
                 "delivery_id": 7,
-                "task": 7,
-                "project": 1,
-                "user": 3,
+                "task_id": 7,
+                "project_id": 1,
+                "user_id": 3,
                 "content": {"content": "Algum conteúdo"},
                 "delivery_date": "2023-09-20"
             }

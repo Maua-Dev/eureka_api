@@ -68,6 +68,12 @@ class DeliveryRepositoryMock(IDeliveryRepository):
 
     def create_delivery(self, delivery):
         delivery["delivery_id"] = len(self.deliveries) + 1
+        delivery["delivery_date"] = "2023-09-17"
+
+        delivery["project"] = delivery.pop("project_id")
+        delivery["user"] = delivery.pop("user_id")
+        delivery["task"] = delivery.pop("task_id")
+
         self.deliveries.append(delivery)
         return delivery
 
