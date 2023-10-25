@@ -66,10 +66,10 @@ class DeliveryRepositoryPostgres(IDeliveryRepository):
         try:
             deliveries_set = Delivery.objects.filter(project_id=project_id)
         except:
-            return None
+            return []
 
         if not deliveries_set:
-            return None
+            return []
 
         deliveries = [delivery.to_dict() for delivery in deliveries_set]
 
