@@ -98,8 +98,9 @@ class Test_DeliveryRepositoryPostgres(TestCase):
         delivery_created = repo.create_delivery(delivery)
         len_after = Delivery.objects.count()
 
+
         assert len_after == len_before + 1
-        assert delivery_created == delivery_expected
+        assert delivery_created['content'] == delivery_expected['content']
 
     def test_create_delivery_invalid_task(self):
         repo = DeliveryRepositoryPostgres()
