@@ -1,6 +1,8 @@
 import os
 from enum import Enum
 from typing import Type
+
+from app.repos.delivery.delivery_repository_interface import IDeliveryRepository
 from app.repos.project.project_repository_interface import IProjectRepository
 
 
@@ -64,6 +66,19 @@ class Environments:
         elif Environments.get_envs().stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
             from app.repos.project.project_repository_postgres import ProjectRepositoryPostgres
             return ProjectRepositoryPostgres
+
+        else:
+            raise Exception("No repository found for this stage")
+
+    @staticmethod
+    def get_delivery_repo() -> Type[IDeliveryRepository]:
+        if Environments.get_envs().stage == STAGE.TEST:
+            from app.repos.delivery.delivery_repository_mock import DeliveryRepositoryMock
+            return DeliveryRepositoryMock
+
+        elif Environments.get_envs().stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
+            from app.repos.delivery.delivery_repository_postgres import DeliveryRepositoryPostgres
+            return DeliveryRepositoryPostgres
 
         else:
             raise Exception("No repository found for this stage")

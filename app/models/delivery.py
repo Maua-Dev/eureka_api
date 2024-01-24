@@ -6,13 +6,15 @@ class Delivery(models.Model):
     task = models.ForeignKey('Task', on_delete=models.CASCADE)
     project = models.ForeignKey('Project', on_delete=models.CASCADE)
     user = models.ForeignKey('User', on_delete=models.CASCADE, )
-    content = models.CharField()
+    content = models.JSONField()
+    date = models.DateTimeField(auto_now_add=True)
 
     def to_dict(self):
         return {
             "delivery_id": self.delivery_id,
-            "task": self.task,
-            "project": self.project,
-            "user": self.user,
+            "task": self.task.to_dict() if self.task != dict else self.task,
+            "project": self.project.to_dict() if self.project != dict else self.project,
+            "user": self.user.to_dict() if self.user != dict else self.user,
+            "date": self.date,
             "content": self.content,
         }

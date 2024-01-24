@@ -18,24 +18,6 @@ class TestProjectRepositoryPostgres(TestCase):
         project.students.add(1, 2, 3)
         project.save()
 
-    def test_create_project(self):
-        repo = ProjectRepositoryPostgres()
-        project = {
-            'title': "Estudo da Computação Quântica",
-            'qualification': "Engenharia da Computação",
-            'code': "ECOM000",
-            'shift': "DIURNO",
-            'stand_number': "1",
-            'is_entrepreneurship': False,
-            'students': [1, 2, 3],
-            'professors': [4, 5],
-        }
-
-        count = Project.objects.count()
-
-        repo.create_project(project)
-
-        assert Project.objects.count() == count + 1
 
     def test_update_project(self):
         repo = ProjectRepositoryPostgres()
@@ -74,3 +56,21 @@ class TestProjectRepositoryPostgres(TestCase):
 
         assert project['title'] == 'Teste'
         assert project['is_entrepreneurship'] == False
+    def test_create_project(self):
+        repo = ProjectRepositoryPostgres()
+        project = {
+            'title': "Estudo da Computação Quântica",
+            'qualification': "Engenharia da Computação",
+            'code': "ECOM000",
+            'shift': "DIURNO",
+            'stand_number': "1",
+            'is_entrepreneurship': False,
+            'students': [1, 2, 3],
+            'professors': [4, 5],
+        }
+
+        count = Project.objects.count()
+
+        repo.create_project(project)
+
+        assert Project.objects.count() == count + 1
