@@ -10,7 +10,7 @@ class GetProjectController(IController):
         super().__init__(repo)
         self.repo = repo
 
-    def __call__(self, request: HttpRequestModel):
+    def __call__(self, request: HttpRequestModel): 
         try:
             self.error_handling(request)
             response_data = self.business_logic(request)
