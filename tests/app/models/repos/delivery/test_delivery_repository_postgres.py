@@ -1,12 +1,13 @@
-from django.test import TestCase
+from django.test import TransactionTestCase
 
 from app.models import Delivery, Task, Project, User
 from app.repos.delivery.delivery_repository_postgres import DeliveryRepositoryPostgres
 
 
-class Test_DeliveryRepositoryPostgres(TestCase):
-    @classmethod
-    def setUpTestData(cls):
+class Test_DeliveryRepositoryPostgres(TransactionTestCase):
+    reset_sequences = True
+
+    def setUp(self):
         Task.objects.create(task_id=1, title="Dados do Trabalho", delivery_date="2023-05-22", responsible="STUDENT")
         Task.objects.create(task_id=2, title="Dados do Trabalho", delivery_date="2023-09-14", responsible="RESPONSIBLE")
 
@@ -24,6 +25,13 @@ class Test_DeliveryRepositoryPostgres(TestCase):
         project.save()
 
         Delivery.objects.create(task_id=2, project_id=1, user_id=4, content={"content": "Algum conteúdo"})
+
+    def tearDown(self):
+        Delivery.objects.all().delete()
+        Task.objects.all().delete()
+        Project.objects.all().delete()
+        User.objects.all().delete()
+
 
     def test_create_delivery(self):
         repo = DeliveryRepositoryPostgres()

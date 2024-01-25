@@ -1,13 +1,13 @@
-from django.test import TestCase
+from django.test import TransactionTestCase
 
 from app.models import User, Project
 from app.repos.project.project_repository_postgres import ProjectRepositoryPostgres
 
 
-class TestProjectRepositoryPostgres(TestCase):
+class TestProjectRepositoryPostgres(TransactionTestCase):
+    reset_sequences = True
 
-    @classmethod
-    def setUpTestData(cls):
+    def setUp(self):
         User.objects.create(user_id=1, name='VITOR GUIRAO SOLLER', email='21.01444-2@maua.br', role='STUDENT')
         User.objects.create(user_id=2, name='JOAO VITOR CHOUERI BRANCO', email='21.01075-7@maua.br', role='STUDENT')
         User.objects.create(user_id=3, name='BRUNO VILARDI BUENO', email='19.00331-5@maua.br', role='STUDENT')
@@ -18,6 +18,9 @@ class TestProjectRepositoryPostgres(TestCase):
         project.students.add(1, 2, 3)
         project.save()
 
+    def tearDown(self):
+        Project.objects.all().delete()
+        User.objects.all().delete()
 
     def test_update_project(self):
         repo = ProjectRepositoryPostgres()
