@@ -4,8 +4,10 @@ from app.controllers.delivery.create_delivery_controller import CreateDeliveryCo
 from app.helpers.http.django_http_request import DjangoHttpRequest
 from app.helpers.http.django_http_response import DjangoHttpResponse
 
-repo = Environments.get_delivery_repo()()
-
+delivery_repo = Environments.get_delivery_repo()()
+task_repo = Environments.get_task_repo()()
+project_repo = Environments.get_project_repo()()
+user_repo = Environments.get_user_repo()()
 
 class DeliveryViews:
 
