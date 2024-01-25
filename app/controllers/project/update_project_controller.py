@@ -1,6 +1,6 @@
 from app.controllers.controller_interface import IController
 from app.helpers.errors.common_errors import MissingParameters
-from app.helpers.http.http_codes import InternalServerError, BadRequest, OK
+from app.helpers.http.http_codes import InternalServerError, BadRequest, OK, NotFound
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.project.project_repository_interface import IProjectRepository
 
@@ -14,6 +14,11 @@ class UpdateProjectController(IController):
         try:
             self.error_handling(request)
             response_data = self.business_logic(request)
+            
+            if response_data is None:
+                return NotFound(
+                    message="Projeto não encontrado"
+                ) 
 
             return OK(
                 body=response_data,
