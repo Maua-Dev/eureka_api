@@ -5,11 +5,13 @@ from app.helpers.errors.common_errors import MissingParameters
 from app.helpers.http.http_codes import Created, BadRequest, InternalServerError
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.delivery.delivery_repository_interface import IDeliveryRepository
+from app.repos.project.project_repository_interface import IProjectRepository
+from app.repos.task.task_repository_interface import ITaskRepository
 
 
 class CreateDeliveryController(IController):
 
-    def __init__(self, repo: IDeliveryRepository): 
+    def __init__(self, delivery_repo: IDeliveryRepository, task_repo: ITaskRepository, project_repo: IProjectRepository): 
         super().__init__(repo)
         self.repo = repo
 
@@ -91,6 +93,8 @@ class CreateDeliveryController(IController):
 
         return delivery_dict
         """
-        response = self.repo.create_delivery(request.data)
+        delivery = request.data
+        
+        response = self.repo.create_delivery(delivery)
 
         return response

@@ -65,7 +65,7 @@ class DeliveryRepositoryMock(IDeliveryRepository):
                 "delivery_date": "2023-09-17"
             },
             ]
-
+ 
     def create_delivery(self, delivery):
         delivery["delivery_id"] = len(self.deliveries) + 1
         delivery["delivery_date"] = "2023-09-17"
