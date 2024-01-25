@@ -1,0 +1,14 @@
+from django.test import TestCase
+from app.repos.user.user_repository_mock import UserRepositoryMock
+
+
+class TestUserRepositoryMock(TestCase):
+    def test_get_user(self):
+        repo = UserRepositoryMock()
+        user = repo.get_user(1)
+        assert user == repo.users[0]
+        
+    def test_get_user_not_found(self):
+        repo = UserRepositoryMock()
+        user = repo.get_user(100)
+        assert user is None

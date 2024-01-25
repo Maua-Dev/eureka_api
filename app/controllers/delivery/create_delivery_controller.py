@@ -12,8 +12,10 @@ from app.repos.task.task_repository_interface import ITaskRepository
 class CreateDeliveryController(IController):
 
     def __init__(self, delivery_repo: IDeliveryRepository, task_repo: ITaskRepository, project_repo: IProjectRepository): 
-        super().__init__(repo)
-        self.repo = repo
+        super().__init__(delivery_repo=delivery_repo, task_repo=task_repo, project_repo=project_repo)
+        self.delivery_repo = delivery_repo
+        self.task_repo = task_repo
+        self.project_repo = project_repo
 
     def __call__(self, request: HttpRequestModel):
 
@@ -53,48 +55,10 @@ class CreateDeliveryController(IController):
             raise MissingParameters('content', 'create_delivery')
 
     def business_logic(self, request: HttpRequestModel):
-        """
-        try:
-            project_set = Project.objects.get(project_id=delivery['project_id'])
-            user_set = User.objects.get(user_id=delivery['user_id'])
-            task_set = Task.objects.get(task_id=delivery['task_id'])
-        except:
-            return None
-
-        if not project_set or not user_set or not task_set:
-            return None
-
-        user = user_set.to_dict()
-        project = project_set.to_dict()
-        task = task_set.to_dict()
-
-        if task['responsible'] == 'ADVISOR' and user['role'] != 'ADVISOR':
-            return None
-        if task['responsible'] == 'RESPONSIBLE' and user['role'] != 'RESPONSIBLE':
-            return None
-
-        students_id = [student['user_id'] for student in project['students']]
-        if user['role'] == 'STUDENT' and user['user_id'] not in students_id:
-            return None
-
-        professors_id = [professor['user_id'] for professor in project['professors']]
-        if user['role'] == 'PROFESSOR' and user['user_id'] not in professors_id:
-            return None
-
-        delivery = Delivery.objects.create(
-            task=task_set,
-            project=project_set,
-            user=user_set,
-            content=delivery['content']
-        )
-        delivery.save()
-
-        delivery_dict = delivery.to_dict()
-
-        return delivery_dict
-        """
         delivery = request.data
         
-        response = self.repo.create_delivery(delivery)
+        
+        
+        response = self.delivery_repo.create_delivery(delivery)
 
         return response
