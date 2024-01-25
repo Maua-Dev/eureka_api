@@ -8,7 +8,7 @@ class DeliveryRepositoryMock(IDeliveryRepository):
     deliveries: List[Dict[str, str]]
 
     def __init__(self):
-        self.deliveries = [
+        self.deliveries = [ 
             {
                 "delivery_id": 1,
                 "task": 1,
