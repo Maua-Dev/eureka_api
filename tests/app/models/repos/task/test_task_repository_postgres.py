@@ -24,3 +24,14 @@ class TestTaskRepositoryPostgres(TestCase):
         assert tasks[0].delivery_date == datetime.date(2023, 5, 15)
         assert tasks[0].responsible == "STUDENT"
 
+    def test_get_task(self):
+        repo = TaskRepositoryPostgres()
+        task = repo.get_task(0)
+        assert task["task_id"] == 0
+        assert task["title"] == "Delivery 1"
+        assert task["responsible"] == "STUDENT"
+        
+    def test_get_task_not_found(self):
+        repo = TaskRepositoryPostgres()
+        task = repo.get_task(100)
+        assert task is None

@@ -9,3 +9,9 @@ class TaskRepositoryPostgres(ITaskRepository):
 
     def get_all_tasks(self):
         return Task.objects.all()
+
+    def get_task(self, task_id: int):
+        try:
+            return Task.objects.get(task_id=task_id).to_dict()
+        except:
+            return None
