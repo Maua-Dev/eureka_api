@@ -7,7 +7,7 @@ from app.repos.project.project_repository_mock import ProjectRepositoryMock
 
 class TestGetProjectController(TestCase):
 
-    def test_update_project_controller(self):
+    def test_get_project_controller(self):
         request = DjangoHttpRequest(
             request=None,
             data={
@@ -23,7 +23,7 @@ class TestGetProjectController(TestCase):
         assert response.status_code == 200
         assert response.message == "The project was retrieved"
 
-    def test_update_project_controller_missing_project_id(self):
+    def test_get_project_controller_missing_project_id(self):
         request = DjangoHttpRequest(
             request=None,
             data={
@@ -39,6 +39,7 @@ class TestGetProjectController(TestCase):
         assert response.status_code == 400
         assert response.message == "Field project_id is missing for method get_project"
 
+    
 
 
 
