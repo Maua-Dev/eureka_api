@@ -18,13 +18,8 @@ jobs:
       - name: Install requirements
         run: |
             pip install -r requirements.txt
-      - name: Setup Docker
-        run: |
-            cd docker
-            docker-compose up -d
-      - name: Setup database
-        run: |
-            python manage.py migrate
       - name: Run tests
         run: |
+            cd docker
+            docker-compose exec web
             python manage.py test
