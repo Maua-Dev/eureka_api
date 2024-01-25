@@ -6,18 +6,34 @@ class MissingParameters(BaseError):
         super().__init__(f'Field {field} is missing for method {method}')
         
         
-class NotFound(BaseError):
+class DataNotFound(BaseError):
     def __init__(self, model: str, genre: str = 'o'):
         super().__init__(f'{model} não encontrad{genre}')
         
-class ProjectNotFound(NotFound):
+class ProjectNotFound(DataNotFound):
     def __init__(self):
         super().__init__(model='Projeto')
         
-class TaskNotFound(NotFound):
+class TaskNotFound(DataNotFound):
     def __init__(self):
         super().__init__(model='Tarefa', genre='a')
         
-class DeliveryNotFound(NotFound):
+class DeliveryNotFound(DataNotFound):
     def __init__(self):
         super().__init__(model='Entrega', genre='a')
+        
+class UserNotFound(DataNotFound):
+    def __init__(self):
+        super().__init__(model='Usuário', genre='o')
+
+class ForbiddenAction(BaseError):
+    def __init__(self, role: str):
+        super().__init__(f'{role} não tem permissão para realizar esta ação')
+
+class AdvisorForbiddenAction(ForbiddenAction):
+    def __init__(self):
+        super().__init__(role='Orientador')
+        
+class StudentForbiddenAction(ForbiddenAction):
+    def __init__(self):
+        super().__init__(role='Estudante')

@@ -10,8 +10,10 @@ class UserRepositoryMock(IUserRepository):
     def __init__(self):
         self.users = [
             {
-                "user_id": 1,
-                "name": "Vitor Soller"
+                'user_id': 1,
+                'name': 'BRUNO VILARDI BUENO',
+                'email': '19.00331-5@maua.br',
+                'role': 'STUDENT'
             }
         ]
 

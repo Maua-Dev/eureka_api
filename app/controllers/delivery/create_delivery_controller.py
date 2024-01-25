@@ -1,8 +1,8 @@
 import json
 
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import MissingParameters
-from app.helpers.http.http_codes import Created, BadRequest, InternalServerError
+from app.helpers.errors.common_errors import AdvisorForbiddenAction, DataNotFound, MissingParameters, ProjectNotFound, StudentForbiddenAction, TaskNotFound, UserNotFound
+from app.helpers.http.http_codes import Created, BadRequest, InternalServerError, NotFound
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.delivery.delivery_repository_interface import IDeliveryRepository
 from app.repos.project.project_repository_interface import IProjectRepository
@@ -33,6 +33,11 @@ class CreateDeliveryController(IController):
                 message=str(e)
             )
 
+        except DataNotFound as e:
+            return NotFound(
+                message=str(e)
+            )
+
         except Exception as e:
             return InternalServerError(
                 message=str(e)
@@ -57,8 +62,38 @@ class CreateDeliveryController(IController):
     def business_logic(self, request: HttpRequestModel):
         delivery = request.data
         
+        try:
+            task = self.task_repo.get_task(delivery['task_id'])
+        except:
+            raise TaskNotFound()
+        try:
+            project = self.project_repo.get_project(delivery['project_id'])
+        except:
+            raise ProjectNotFound()
+        try:
+            user = self.user_repo.get_user(delivery['user_id'])
+        except:
+            raise UserNotFound()
         
+        if task['responsible'] == 'ADVISOR' and user['role'] not in ['RESPONSIBLE', "ADVISOR"]:
+            raise StudentForbiddenAction()
+        if task['responsible'] == 'RESPONSIBLE' and user['role'] != 'RESPONSIBLE':
+            if user['role'] == 'ADVISOR':
+                raise AdvisorForbiddenAction()
+            raise StudentForbiddenAction()
         
-        response = self.delivery_repo.create_delivery(delivery)
+        # students_id = [student['user_id'] for student in project['students']]
+        # if user['role'] == 'STUDENT' and user['user_id'] not in students_id:
+        #     return None
+        # professors_id = [professor['user_id'] for professor in project['professors']]
+        # if user['role'] == 'PROFESSOR' and user['user_id'] not in professors_id:
+        #     return None
+        
+        response = self.delivery_repo.create_delivery(
+            delivery=delivery, 
+            user=user, 
+            task=task, 
+            project=project
+        )
 
         return response
