@@ -12,8 +12,14 @@ class UserRepositoryMock(IUserRepository):
             {
                 'user_id': 1,
                 'name': 'BRUNO VILARDI BUENO',
-                'email': '19.00331-5@maua.br',
+                'email': '19.00331-5@maua.br', 
                 'role': 'STUDENT'
+            },
+            {
+                'user_id': 2,
+                'name': 'JOÃO VITOR CHOUERI BRANCO',
+                'email': '21.01075-7@maua.br', 
+                'role': 'ADVISOR'
             }
         ]
 

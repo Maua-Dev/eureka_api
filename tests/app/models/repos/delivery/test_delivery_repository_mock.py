@@ -7,12 +7,10 @@ class Test_DeliveryRepositoryMock(TestCase):
     def test_create_delivery(self):
         repo = DeliveryRepositoryMock()
         delivery = {
-            "delivery_id": 7,
-            "task_id": 7,
+            "task_id": 1,
             "project_id": 1,
             "user_id": 3,
             "content": {"content": "Algum conteúdo"},
-            "delivery_date": "2023-09-20"
         }
         project = {
             'project_id': 1,

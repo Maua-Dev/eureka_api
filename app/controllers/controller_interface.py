@@ -13,6 +13,7 @@ class IController:
         self.delivery_repo = delivery_repo
         self.task_repo = task_repo
         self.project_repo = project_repo
+        self.user_repo = user_repo
         
     @abstractmethod
     def __call__(self, request: HttpRequestModel):
