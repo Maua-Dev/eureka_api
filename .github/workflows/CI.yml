@@ -22,4 +22,5 @@ jobs:
         run: |
             cd docker
             docker-compose exec web
+            cd ..
             python manage.py test
