@@ -8,7 +8,6 @@ class Test_DeliveryRepositoryPostgres(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
-        print("Setup Test_DeliveryRepositoryPostgres:")
         Task.objects.create(task_id=1, title="Dados do Trabalho", delivery_date="2023-05-22", responsible="STUDENT")
         Task.objects.create(task_id=2, title="Dados do Trabalho", delivery_date="2023-09-14", responsible="RESPONSIBLE")
 
