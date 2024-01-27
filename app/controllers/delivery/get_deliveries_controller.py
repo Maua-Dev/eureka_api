@@ -21,8 +21,14 @@ class GetDeliveriesController(IController):
 
             response_data = self.business_logic(request)
 
+            response_data_without_projects = []
+
+            for delivery in response_data:
+                delivery.pop('project')
+                response_data_without_projects.append(delivery)
+
             return OK(
-                body=response_data,
+                body=response_data_without_projects,
                 message="The delivery have been retrieved successfully"
             )
 

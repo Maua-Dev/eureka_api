@@ -1,12 +1,10 @@
-from django.test import Client, TestCase
-from app.controllers.project.create_project_controller import CreateProjectController
+from django.test import TransactionTestCase
 from app.models.project import Project
 from app.models.user import User
 
 
-class TestProjectView(TestCase):
-    @classmethod
-    def setUpTestData(cls):
+class TestProjectView(TransactionTestCase):
+    def setUp(self):
         User.objects.create(user_id=1, name='VITOR GUIRAO SOLLER', email='21.01444-2@maua.br', role='STUDENT')
         User.objects.create(user_id=2, name='JOAO VITOR CHOUERI BRANCO', email='21.01075-7@maua.br', role='STUDENT')
         User.objects.create(user_id=3, name='BRUNO VILARDI BUENO', email='19.00331-5@maua.br', role='STUDENT')
@@ -16,6 +14,10 @@ class TestProjectView(TestCase):
         project.professors.add(4, 5)
         project.students.add(1, 2, 3)
         project.save()
+
+    def tearDown(self):
+        Project.objects.all().delete()
+        User.objects.all().delete()
 
     def test_create_project_view(self):
         response = self.client.post('/create_project', {

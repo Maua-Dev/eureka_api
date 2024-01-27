@@ -23,5 +23,7 @@ jobs:
             cd docker
             docker-compose up -d
       - name: Run tests
+        env:
+          DJANGO_SETTINGS_MODULE: 'eureka_api.settings'
         run: |
-            python manage.py test
+          python manage.py test
