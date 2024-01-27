@@ -8,7 +8,7 @@ class DeliveryRepositoryMock(IDeliveryRepository):
     deliveries: List[Dict[str, str]]
 
     def __init__(self):
-        self.deliveries = [
+        self.deliveries = [ 
             {
                 "delivery_id": 1,
                 "task": 1,
@@ -65,8 +65,8 @@ class DeliveryRepositoryMock(IDeliveryRepository):
                 "delivery_date": "2023-09-17"
             },
             ]
-
-    def create_delivery(self, delivery):
+ 
+    def create_delivery(self, delivery: dict, user: dict, task: dict, project: dict):
         delivery["delivery_id"] = len(self.deliveries) + 1
         delivery["delivery_date"] = "2023-09-17"
 

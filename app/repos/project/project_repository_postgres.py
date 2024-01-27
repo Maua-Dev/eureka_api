@@ -8,7 +8,10 @@ class ProjectRepositoryPostgres(IProjectRepository):
             pass
         
         def get_project(self, project_id: int):
-            return Project.objects.get(project_id=project_id).to_dict()
+            try:
+                return Project.objects.get(project_id=project_id).to_dict()
+            except:
+                return None
 
         def update_project(self, project):
             project_to_update = Project.objects.get(project_id=project['project_id'])

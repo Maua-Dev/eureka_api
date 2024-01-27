@@ -59,6 +59,14 @@ class TestProjectRepositoryPostgres(TransactionTestCase):
 
         assert project['title'] == 'Teste'
         assert project['is_entrepreneurship'] == False
+        
+    def test_get_project_not_found(self):
+        repo = ProjectRepositoryPostgres()
+
+        project = repo.get_project(2)
+
+        assert project is None    
+    
     def test_create_project(self):
         repo = ProjectRepositoryPostgres()
         project = {

@@ -8,45 +8,34 @@ class DeliveryRepositoryPostgres(IDeliveryRepository):
     def __init__(self):
         pass
 
-    def create_delivery(self, delivery):
+    def create_delivery(self, delivery: dict, user: dict, task: dict, project: dict):
         try:
-            project_set = Project.objects.get(project_id=delivery['project_id'])
-            user_set = User.objects.get(user_id=delivery['user_id'])
-            task_set = Task.objects.get(task_id=delivery['task_id'])
-        except:
-            return None
+            professors = set([User(**user) for user in project["professors"]])
+            students = set([User(**user) for user in project["students"]])
+            
+            project.pop("professors")
+            project.pop("students")
+            
+            project_model = Project(**project)
+            
+            project_model.professors.set(professors)
+            project_model.students.set(students)
+            
+            result = Delivery.objects.create(
+                task=Task(**task),
+                project=Project(**project),
+                user=User(**user),
+                content=delivery['content']
+            )
+            result.save()
 
-        if not project_set or not user_set or not task_set:
-            return None
+            delivery_dict = result.__dict__
 
-        user = user_set.to_dict()
-        project = project_set.to_dict()
-        task = task_set.to_dict()
-
-        if task['responsible'] == 'ADVISOR' and user['role'] != 'ADVISOR':
-            return None
-        if task['responsible'] == 'RESPONSIBLE' and user['role'] != 'RESPONSIBLE':
-            return None
-
-        students_id = [student['user_id'] for student in project['students']]
-        if user['role'] == 'STUDENT' and user['user_id'] not in students_id:
-            return None
-
-        professors_id = [professor['user_id'] for professor in project['professors']]
-        if user['role'] == 'PROFESSOR' and user['user_id'] not in professors_id:
-            return None
-
-        delivery = Delivery.objects.create(
-            task=task_set,
-            project=project_set,
-            user=user_set,
-            content=delivery['content']
-        )
-        delivery.save()
-
-        delivery_dict = delivery.to_dict()
-
-        return delivery_dict
+            return delivery_dict
+        
+        except Exception as e:
+            raise e
+        
 
 
     def get_delivery(self, delivery_id):

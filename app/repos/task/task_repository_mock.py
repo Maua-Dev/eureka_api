@@ -55,3 +55,9 @@ class TaskRepositoryMock(ITaskRepository):
 
     def get_all_tasks(self):
         return self.tasks
+
+    def get_task(self, task_id: int):
+        for task in self.tasks:
+            if task['task_id'] == task_id:
+                return task
+        return None 

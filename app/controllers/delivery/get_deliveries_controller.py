@@ -1,6 +1,6 @@
 
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import MissingParameters
+from app.helpers.errors.common_errors import MissingParameters, WrongTypeParameter
 from app.helpers.http.http_codes import BadRequest, InternalServerError, OK
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.delivery.delivery_repository_interface import IDeliveryRepository
@@ -16,8 +16,6 @@ class GetDeliveriesController(IController):
 
         try:
             self.error_handling(request)
-
-            request.data['project_id'] = int(request.data['project_id'])
 
             response_data = self.business_logic(request)
 
@@ -49,9 +47,14 @@ class GetDeliveriesController(IController):
         if request.data.get('project_id') is None:
             raise MissingParameters('project_id', 'get_deliveries')
 
-        if type(request.data.get('project_id')) == str and not request.data.get('project_id').isdecimal():
-            raise MissingParameters('project_id', 'get_deliveries')
+        if type(request.data.get('project_id')) == str:
+            if not request.data.get('project_id').isdecimal():
+                raise WrongTypeParameter('project_id')
+            else:
+                request.data['project_id'] = int(request.data['project_id'])
 
+        elif type(request.data.get('project_id')) != int:
+            raise WrongTypeParameter('project_id')
 
     def business_logic(self, request: HttpRequestModel):
         response = self.repo.get_deliveries(request.data['project_id'])

@@ -4,14 +4,21 @@ from app.controllers.delivery.create_delivery_controller import CreateDeliveryCo
 from app.helpers.http.django_http_request import DjangoHttpRequest
 from app.helpers.http.django_http_response import DjangoHttpResponse
 
-repo = Environments.get_delivery_repo()()
-
+delivery_repo = Environments.get_delivery_repo()()
+task_repo = Environments.get_task_repo()()
+project_repo = Environments.get_project_repo()()
+user_repo = Environments.get_user_repo()()
 
 class DeliveryViews:
 
     @staticmethod
     def create_delivery(request):
-        controller = CreateDeliveryController(repo)
+        controller = CreateDeliveryController(
+            delivery_repo=delivery_repo, 
+            task_repo=task_repo, 
+            project_repo=project_repo, 
+            user_repo=user_repo
+        )
         http_request = DjangoHttpRequest(request)
         response = controller(http_request)
         http_response = DjangoHttpResponse(body=response.body, status_code=response.status_code,
@@ -22,7 +29,7 @@ class DeliveryViews:
 
     @staticmethod
     def get_deliveries(request):
-        controller = GetDeliveriesController(repo)
+        controller = GetDeliveriesController(delivery_repo)
         http_request = DjangoHttpRequest(request)
         response = controller(http_request)
         http_response = DjangoHttpResponse(body=response.body, status_code=response.status_code,

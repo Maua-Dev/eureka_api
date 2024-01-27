@@ -1,6 +1,6 @@
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import MissingParameters
-from app.helpers.http.http_codes import InternalServerError, BadRequest, OK
+from app.helpers.errors.common_errors import MissingParameters, ProjectNotFound, WrongTypeParameter
+from app.helpers.http.http_codes import InternalServerError, BadRequest, OK, NotFound
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.project.project_repository_interface import IProjectRepository
 
@@ -10,10 +10,13 @@ class GetProjectController(IController):
         super().__init__(repo)
         self.repo = repo
 
-    def __call__(self, request: HttpRequestModel):
+    def __call__(self, request: HttpRequestModel): 
         try:
             self.error_handling(request)
             response_data = self.business_logic(request)
+
+            if response_data is None:
+                raise ProjectNotFound()
 
             return OK(
                 body=response_data,
@@ -22,6 +25,16 @@ class GetProjectController(IController):
 
         except MissingParameters as err:
             return BadRequest(message=err.message)
+
+        except ProjectNotFound as err:
+            return NotFound(
+                message=err.message
+            )
+
+        except WrongTypeParameter as err:
+            return BadRequest(
+                message=err.message
+            )
 
         except Exception as err:
             return InternalServerError(
@@ -36,6 +49,14 @@ class GetProjectController(IController):
 
         if data.get('project_id') is None:
             raise MissingParameters('project_id', 'get_project')
+
+        if type(data.get('project_id')) == str:
+            if not data.get('project_id').isdecimal():
+                raise WrongTypeParameter('project_id')
+            else:
+                data['project_id'] = int(data['project_id'])
+        elif type(data.get('project_id')) != int:
+            raise WrongTypeParameter('project_id')
 
     def business_logic(self, request: HttpRequestModel):
         return self.repo.get_project(request.data['project_id'])
