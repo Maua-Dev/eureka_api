@@ -13,8 +13,19 @@ class ProjectRepositoryMock(IProjectRepository):
                     'shift': "DIRUNO",
                     'stand_number': "1",
                     'is_entrepreneurship': False,
-                    'professors': [1, 2, 3],
-                    'students': [1, 4, 5],
+                    'professors': [4, 5],
+                    'students': [1, 2, 3],
+                },
+                {
+                    "project_id": 2,
+                    'title': "Teste 2",
+                    'qualification': "Engenharia da Computação",
+                    'code': "ECOM000",
+                    'shift': "DIRUNO",
+                    'stand_number': "1",
+                    'is_entrepreneurship': False,
+                    'professors': [4, 5],
+                    'students': [1, 2, 3],
                 }
             ]
 
