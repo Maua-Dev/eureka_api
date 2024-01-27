@@ -54,4 +54,7 @@ class TestProjectRepositoryMock(TestCase):
         projects3 = repo.get_projects_by_role(user_id=5)
         assert projects3 == [repo.projects[0], repo.projects[2]]
         
+        projects4 = repo.get_projects_by_role(user_id=100)
+        assert projects4 == []
+        
         

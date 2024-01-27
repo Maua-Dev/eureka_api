@@ -25,6 +25,7 @@ urlpatterns = [
     path('create_project', ProjectViews.create_project, name='create_project'),
     path('update_project', ProjectViews.update_project, name='update_project'),
     path('get_project', ProjectViews.get_project, name='get_project'),
+    path('get_projects_by_role', ProjectViews.get_projects_by_role, name='get_projects_by_role'),
     path('create_delivery', DeliveryViews.create_delivery, name='create_delivery'),
     path('get_deliveries', DeliveryViews.get_deliveries, name='get_deliveries'),
 ]

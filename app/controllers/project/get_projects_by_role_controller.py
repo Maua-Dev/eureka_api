@@ -1,15 +1,17 @@
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import MissingParameters, WrongTypeParameter
-from app.helpers.http.http_codes import InternalServerError, BadRequest, OK
+from app.helpers.errors.common_errors import MissingParameters, UserNotFound, WrongTypeParameter
+from app.helpers.http.http_codes import InternalServerError, BadRequest, OK, NotFound
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.project.project_repository_interface import IProjectRepository
+from app.repos.user.user_repository_interface import IUserRepository
 
 
 class GetProjectsByRoleController(IController):
 
-    def __init__(self, repo: IProjectRepository):
-        super().__init__(repo)
-        self.repo = repo
+    def __init__(self, project_repo: IProjectRepository, user_repo: IUserRepository):
+        super().__init__(project_repo)
+        self.project_repo = project_repo
+        self.user_repo = user_repo
 
     def __call__(self, request: HttpRequestModel):
         try:
@@ -26,6 +28,11 @@ class GetProjectsByRoleController(IController):
         
         except WrongTypeParameter as err:
             return BadRequest(
+                message=err.message
+            )
+
+        except UserNotFound as err:
+            return NotFound(
                 message=err.message
             )
 
@@ -53,4 +60,12 @@ class GetProjectsByRoleController(IController):
 
 
     def business_logic(self, request: HttpRequestModel):
-        return self.repo.get_projects_by_role(request.data)
+
+        user_id = request.data["user_id"]
+
+        user = self.user_repo.get_user(user_id)
+
+        if user is None:
+            raise UserNotFound()
+
+        return self.project_repo.get_projects_by_role(user_id=user_id)
