@@ -28,7 +28,7 @@ class TestCreateProjectController(TestCase):
 
         assert response.status_code == 201
         assert response.body == {
-            "project_id": 2,
+            "project_id": len(repo.projects),
             "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
             "qualification": "Engenharia de Software",
             "code": "ES-01",
