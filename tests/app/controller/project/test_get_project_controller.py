@@ -56,5 +56,19 @@ class TestGetProjectController(TestCase):
         assert response.message == "Projeto não encontrado"
 
 
+    def test_get_project_controller_wrong_type(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "project_id": "batata",
+            },
+            method="GET"
+        )
 
+        repo = ProjectRepositoryMock()
+        controller = GetProjectController(repo)
+        response = controller(request)
+
+        assert response.message == "Tipo de parâmetro incorreto para project_id"
+        assert response.status_code == 400
 

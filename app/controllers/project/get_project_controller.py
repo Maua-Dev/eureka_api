@@ -1,5 +1,5 @@
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import MissingParameters, ProjectNotFound
+from app.helpers.errors.common_errors import MissingParameters, ProjectNotFound, WrongTypeParameter
 from app.helpers.http.http_codes import InternalServerError, BadRequest, OK, NotFound
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.project.project_repository_interface import IProjectRepository
@@ -31,6 +31,11 @@ class GetProjectController(IController):
                 message=err.message
             )
 
+        except WrongTypeParameter as err:
+            return BadRequest(
+                message=err.message
+            )
+
         except Exception as err:
             return InternalServerError(
                 message=str(err)
@@ -44,6 +49,14 @@ class GetProjectController(IController):
 
         if data.get('project_id') is None:
             raise MissingParameters('project_id', 'get_project')
+
+        if type(data.get('project_id')) == str:
+            if not data.get('project_id').isdecimal():
+                raise WrongTypeParameter('project_id')
+            else:
+                data['project_id'] = int(data['project_id'])
+        elif type(data.get('project_id')) != int:
+            raise WrongTypeParameter('project_id')
 
     def business_logic(self, request: HttpRequestModel):
         return self.repo.get_project(request.data['project_id'])
