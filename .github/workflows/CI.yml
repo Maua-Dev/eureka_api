@@ -21,7 +21,7 @@ jobs:
       - name: Setup Docker
         run: |
             cd docker
-            docker-compose up -d
+            docker-compose up -d --wait --wait-timeout 30
       - name: Run tests
         env:
           DJANGO_SETTINGS_MODULE: 'eureka_api.settings'
