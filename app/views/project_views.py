@@ -1,5 +1,6 @@
 from app.controllers.project.create_project_controller import CreateProjectController
 from app.controllers.project.get_project_controller import GetProjectController
+from app.controllers.project.get_projects_by_role_controller import GetProjectsByRoleController
 from app.controllers.project.update_project_controller import UpdateProjectController
 from app.environments import Environments
 from app.helpers.http.django_http_request import DjangoHttpRequest
@@ -37,4 +38,13 @@ class ProjectViews:
         http_response = DjangoHttpResponse(body=response.body, status_code=response.status_code,
                                            message=response.message)
 
+        return http_response.to_django()
+    
+    @staticmethod
+    def get_projects_by_role(request):
+        controlller = GetProjectsByRoleController(repo)
+        http_request = DjangoHttpRequest(request)
+        response = controlller(http_request)
+        http_response = DjangoHttpResponse(body=response.body, status_code=response.status_code,
+                                           message=response.message)
         return http_response.to_django()
