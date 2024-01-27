@@ -21,9 +21,7 @@ class Test_DeliveryView(TestCase):
         assert response.status_code == 201
 
     def test_get_deliveries_view(self):
-        request = self.factory.get('/get_deliveries', {
-            "project_id": 1,
-        },
+        request = self.factory.get('/get_deliveries?project_id=1',
         content_type='application/json')
 
         response = DeliveryViews.get_deliveries(request)
