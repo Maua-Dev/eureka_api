@@ -14,7 +14,7 @@ class ProjectRepositoryMock(IProjectRepository):
                     'stand_number': "1",
                     'is_entrepreneurship': False,
                     'professors': [1, 2, 3],
-                    'students': [4, 5],
+                    'students': [1, 4, 5],
                 }
             ]
 

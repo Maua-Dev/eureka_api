@@ -42,3 +42,11 @@ class AdvisorForbiddenAction(RoleForbiddenAction):
 class StudentForbiddenAction(RoleForbiddenAction):
     def __init__(self):
         super().__init__(role='Estudante')
+        
+class StudentNotInProject(RoleForbiddenAction):
+    def __init__(self):
+        super().__init__(role='Estudante')
+        
+class TeacherNotInProject(RoleForbiddenAction):
+    def __init__(self):
+        super().__init__(role='Professor')

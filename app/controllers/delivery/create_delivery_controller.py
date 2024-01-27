@@ -1,7 +1,7 @@
 import json
 
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import AdvisorForbiddenAction, ObjectNotFound, MissingParameters, ProjectNotFound, RequestNotFound, RoleForbiddenAction, StudentForbiddenAction, TaskNotFound, UserNotFound
+from app.helpers.errors.common_errors import AdvisorForbiddenAction, ObjectNotFound, MissingParameters, ProjectNotFound, RequestNotFound, RoleForbiddenAction, StudentForbiddenAction, StudentNotInProject, TaskNotFound, TeacherNotInProject, UserNotFound
 from app.helpers.http.http_codes import Created, BadRequest, InternalServerError, NotFound, Forbidden
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.delivery.delivery_repository_interface import IDeliveryRepository
@@ -96,12 +96,12 @@ class CreateDeliveryController(IController):
                 raise AdvisorForbiddenAction()
             raise StudentForbiddenAction()
         
-        # students_id = [student['user_id'] for student in project['students']]
-        # if user['role'] == 'STUDENT' and user['user_id'] not in students_id:
-        #     return None
-        # professors_id = [professor['user_id'] for professor in project['professors']]
-        # if user['role'] == 'PROFESSOR' and user['user_id'] not in professors_id:
-        #     return None
+        students_id = project['students']
+        if user['role'] == 'STUDENT' and user['user_id'] not in students_id:
+            return StudentNotInProject()
+        professors_id = project['professors']
+        if user['role'] == 'PROFESSOR' and user['user_id'] not in professors_id:
+            return TeacherNotInProject()
         
         response = self.delivery_repo.create_delivery(
             delivery=delivery, 

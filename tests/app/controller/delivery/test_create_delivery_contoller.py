@@ -159,9 +159,9 @@ class Test_CreateDeliveryController(TestCase):
         response = controller(request)
 
         assert response.status_code == 404
-        assert response.message == "Projeto não encontrada"    
+        assert response.message == "Projeto não encontrado"    
            
-    def test_create_delivery_controller_project_not_found(self):
+    def test_create_delivery_controller_user_not_found(self):
         delivery_repo = DeliveryRepositoryMock()
         project_repo = ProjectRepositoryMock()
         task_repo = TaskRepositoryMock()
@@ -182,7 +182,7 @@ class Test_CreateDeliveryController(TestCase):
         response = controller(request)
 
         assert response.status_code == 404
-        assert response.message == "Usuário não encontrada"  
+        assert response.message == "Usuário não encontrado"  
              
     def test_create_delivery_controller_project_student_creating_advisors_task(self):
         delivery_repo = DeliveryRepositoryMock()
@@ -230,7 +230,7 @@ class Test_CreateDeliveryController(TestCase):
         assert response.status_code == 403
         assert response.message == "Estudante não tem permissão para realizar esta ação"       
         
-    def test_create_delivery_controller_project_student_creating_responsible_task(self):
+    def test_create_delivery_controller_project_advisor_creating_responsible_task(self):
         delivery_repo = DeliveryRepositoryMock()
         project_repo = ProjectRepositoryMock()
         task_repo = TaskRepositoryMock()
@@ -241,7 +241,7 @@ class Test_CreateDeliveryController(TestCase):
             data={
                 "task_id": 3,
                 "project_id": 1,
-                "user_id": 2,
+                "user_id": 4,
                 "content": {
                     "key": "value"
                 }
@@ -253,3 +253,48 @@ class Test_CreateDeliveryController(TestCase):
         assert response.status_code == 403
         assert response.message == "Orientador não tem permissão para realizar esta ação"       
 
+    def test_create_delivery_controller_student_not_in_project(self):
+        delivery_repo = DeliveryRepositoryMock()
+        project_repo = ProjectRepositoryMock()
+        task_repo = TaskRepositoryMock()
+        user_repo = UserRepositoryMock()
+        controller = CreateDeliveryController(delivery_repo=delivery_repo, project_repo=project_repo, task_repo=task_repo, user_repo=user_repo)
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "task_id": 3,
+                "project_id": 1,
+                "user_id": 6,
+                "content": {
+                    "key": "value"
+                }
+            },
+            method="POST"
+        )
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Estudante não tem permissão para realizar esta ação"
+           
+    def test_create_delivery_controller_advisor_not_in_project(self):
+        delivery_repo = DeliveryRepositoryMock()
+        project_repo = ProjectRepositoryMock()
+        task_repo = TaskRepositoryMock()
+        user_repo = UserRepositoryMock()
+        controller = CreateDeliveryController(delivery_repo=delivery_repo, project_repo=project_repo, task_repo=task_repo, user_repo=user_repo)
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "task_id": 3,
+                "project_id": 1,
+                "user_id": 7,
+                "content": {
+                    "key": "value"
+                }
+            },
+            method="POST"
+        )
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Orientador não tem permissão para realizar esta ação"   
