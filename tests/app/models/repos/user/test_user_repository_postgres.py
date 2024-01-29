@@ -1,19 +1,23 @@
 import datetime
 
-from django.test import TestCase
+from django.test import TransactionTestCase
 
 from app.models import User
 from app.repos.user.user_repository_postgres import UserRepositoryPostgres
 
 
-class TestUserRepositoryPostgres(TestCase):
-    @classmethod
-    def setUpTestData(cls):
+class TestUserRepositoryPostgres(TransactionTestCase):
+    reset_sequences = True
+
+    def setUp(self):
         User.objects.create(user_id=0, name="Vitor Soller")
         User.objects.create(user_id=1, name="Brancas")
         User.objects.create(user_id=2, name="Hector Guerrini")
         User.objects.create(user_id=3, name="Bruno Vilas")
         User.objects.create(user_id=4, name="Luigi Televisão")
+
+    def tearDown(self):
+        User.objects.all().delete()
 
     def test_get_user(self):
         repo = UserRepositoryPostgres()
