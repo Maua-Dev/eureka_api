@@ -76,7 +76,7 @@ class TestProjectRepositoryPostgres(TransactionTestCase):
     def test_get_project_not_found(self):
         repo = ProjectRepositoryPostgres()
 
-        project = repo.get_project(2)
+        project = repo.get_project(99)
 
         assert project is None    
     
