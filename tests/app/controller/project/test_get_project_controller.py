@@ -43,7 +43,7 @@ class TestGetProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
-                "project_id": 2,
+                "project_id": 200,
             },
             method="GET"
         )

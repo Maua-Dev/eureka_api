@@ -17,4 +17,8 @@ class IProjectRepository(RepoInterface):
     def update_project(self, project):
         pass
 
+    @abstractmethod
+    def get_projects_by_role(self, user_id: int):
+        pass
+
 

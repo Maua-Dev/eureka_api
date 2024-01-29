@@ -13,10 +13,23 @@ class TestProjectRepositoryPostgres(TransactionTestCase):
         User.objects.create(user_id=3, name='BRUNO VILARDI BUENO', email='19.00331-5@maua.br', role='STUDENT')
         User.objects.create(user_id=4, name='CARLOS EDUARDO DANTAS DE MENEZES', email='carlos.menezes@maua.br', role='ADVISOR')
         User.objects.create(user_id=5, name='ANA PAULA GONCALVES SERRA', email='ana.serra@maua.br', role='RESPONSIBLE')
+        User.objects.create(user_id=6, name='PAULO SIQUEIRA', email='paulo.siqueira@maua.br', role='STUDENT')
         project = Project.objects.create(title="Teste", qualification="Engenharia da Computação", code="ECOM000", shift="DIURNO", stand_number="1", is_entrepreneurship=False)
         project.professors.add(4, 5)
-        project.students.add(1, 2, 3)
+        project.students.add(1)
         project.save()
+        
+        project2 = Project.objects.create(title="Teste2", qualification="Engenharia da Computação", code="ECOM001", shift="DIURNO", stand_number="1", is_entrepreneurship=False)
+        project2.professors.add(4, 5)
+        project2.students.add(2)
+        project2.save()
+        
+        project3 = Project.objects.create(title="Teste3", qualification="Engenharia da Computação", code="ECOM001", shift="DIURNO", stand_number="1", is_entrepreneurship=False)
+        project3.professors.add(4)
+        project3.students.add(3)
+        project3.save()
+        
+        
 
     def tearDown(self):
         Project.objects.all().delete()
@@ -63,7 +76,7 @@ class TestProjectRepositoryPostgres(TransactionTestCase):
     def test_get_project_not_found(self):
         repo = ProjectRepositoryPostgres()
 
-        project = repo.get_project(2)
+        project = repo.get_project(99)
 
         assert project is None    
     
@@ -85,3 +98,34 @@ class TestProjectRepositoryPostgres(TransactionTestCase):
         repo.create_project(project)
 
         assert Project.objects.count() == count + 1
+
+    def test_get_projects_by_role(self):
+        repo = ProjectRepositoryPostgres()
+        projects1 = repo.get_projects_by_role(user_id=1)
+        assert len(projects1) == 1
+        assert type(projects1) == list
+        assert type(projects1[0]) == dict
+        
+        projects2 = repo.get_projects_by_role(user_id=2)
+        assert len(projects2) == 1
+        assert type(projects1) == list
+        assert type(projects1[0]) == dict
+
+        projects3 = repo.get_projects_by_role(user_id=3)
+        assert len(projects3) == 1
+        assert type(projects1) == list
+        assert type(projects1[0]) == dict
+
+        projects4 = repo.get_projects_by_role(user_id=4)
+        assert len(projects4) == 3
+        assert type(projects1) == list
+        assert type(projects1[0]) == dict
+
+        projects5 = repo.get_projects_by_role(user_id=5)
+        assert len(projects5) == 2
+        assert type(projects1) == list
+        assert type(projects1[0]) == dict
+
+        projects6 = repo.get_projects_by_role(user_id=6)
+        assert len(projects6) == 0
+        assert type(projects1) == list

@@ -12,6 +12,25 @@ class ProjectRepositoryPostgres(IProjectRepository):
                 return Project.objects.get(project_id=project_id).to_dict()
             except:
                 return None
+            
+        def get_projects_by_role(self, user_id: int):
+            student_projects = []
+            try:
+                student_projects = Project.objects.filter(students__user_id=user_id)
+            except: pass
+            if len(student_projects) > 0:
+                return [project.to_dict() for project in student_projects]    
+
+            professor_projects = []
+            try:
+                professor_projects = Project.objects.filter(professors__user_id=user_id)
+            except: pass
+            if len(professor_projects) > 0:
+                return [project.to_dict() for project in professor_projects]
+            
+            return []
+                
+
 
         def update_project(self, project):
             project_to_update = Project.objects.get(project_id=project['project_id'])

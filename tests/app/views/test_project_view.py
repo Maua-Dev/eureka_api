@@ -47,3 +47,9 @@ class TestProjectView(TransactionTestCase):
             content_type='application/json'
         )
         assert response.status_code == 200
+
+    def test_get_projects_by_role_view(self):
+        response = self.client.get('/get_projects_by_role?user_id=1',
+            content_type='application/json'
+        )
+        assert response.status_code == 200

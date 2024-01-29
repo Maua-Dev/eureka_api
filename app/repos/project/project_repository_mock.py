@@ -13,8 +13,30 @@ class ProjectRepositoryMock(IProjectRepository):
                     'shift': "DIRUNO",
                     'stand_number': "1",
                     'is_entrepreneurship': False,
-                    'professors': [1, 2, 3],
-                    'students': [1, 4, 5],
+                    'professors': [4, 5],
+                    'students': [1, 2],
+                },
+                {
+                    "project_id": 2,
+                    'title': "Teste 2",
+                    'qualification': "Design",
+                    'code': "DSGN123",
+                    'shift': "NOTURNO",
+                    'stand_number': "2",
+                    'is_entrepreneurship': False,
+                    'professors': [4, 7],
+                    'students': [3],
+                },
+                {
+                    "project_id": 3,
+                    'title': "Teste 3",
+                    'qualification': "Administração",
+                    'code': "ADM123",
+                    'shift': "DIURNO",
+                    'stand_number': "1",
+                    'is_entrepreneurship': False,
+                    'professors': [4, 5],
+                    'students': [6],
                 }
             ]
 
@@ -40,3 +62,11 @@ class ProjectRepositoryMock(IProjectRepository):
 
                     return self.projects[i]
             return None
+    
+        def get_projects_by_role(self, user_id: int):
+            projects = []
+            for project in self.projects:
+                if user_id in project['professors'] or user_id in project['students']:
+                    projects.append(project)
+            return projects
+            
