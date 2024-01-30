@@ -64,3 +64,7 @@ class TeacherNotInProject(RoleForbiddenAction):
 class WrongTypeParameter(BaseError):
     def __init__(self, field: str = ''):
         super().__init__(f'Tipo de parâmetro incorreto para {field}')
+        
+class DuplicatedRole(BaseError):
+    def __init__(self, role: str):
+        super().__init__(f'{role} já cadastrado em um projeto')
