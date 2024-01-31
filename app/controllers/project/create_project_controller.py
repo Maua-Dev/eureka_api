@@ -1,5 +1,5 @@
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import DuplicatedRole, MissingParameters, WrongTypeParameter, UserNotFound
+from app.helpers.errors.common_errors import UserAlreadyInProject, MissingParameters, WrongTypeParameter, UserNotFound
 from app.helpers.http.http_codes import Created, Forbidden, InternalServerError, BadRequest, NotFound
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.project.project_repository_interface import IProjectRepository
@@ -28,7 +28,7 @@ class CreateProjectController(IController):
         except WrongTypeParameter as err:
             return BadRequest(message=err.message)
 
-        except DuplicatedRole as err:
+        except UserAlreadyInProject as err:
             return Forbidden(message=err.message)
 
         except MissingParameters as err:
@@ -78,6 +78,6 @@ class CreateProjectController(IController):
                 
                 student_projects = self.repo.get_projects_by_role(user_id=student_id)
                 if student_projects != []:
-                    raise DuplicatedRole(role="Estudante")
+                    raise UserAlreadyInProject(role="Estudante")
         
         return self.repo.create_project(request.data)
