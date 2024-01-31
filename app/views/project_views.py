@@ -13,7 +13,7 @@ user_repo = Environments.get_user_repo()()
 class ProjectViews:
     @staticmethod
     def create_project(request):
-        controller = CreateProjectController(project_repo)
+        controller = CreateProjectController(project_repo=project_repo, user_repo=user_repo)
         http_request = DjangoHttpRequest(request)
         response = controller(http_request)
         http_response = DjangoHttpResponse(body=response.body, status_code=response.status_code,
