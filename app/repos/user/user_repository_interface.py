@@ -11,3 +11,10 @@ class IUserRepository(RepoInterface):
         Return user by user_id.
         """
         pass
+    
+    @abstractmethod
+    def get_all_students(self):
+        """
+        Return all students.
+        """
+        pass

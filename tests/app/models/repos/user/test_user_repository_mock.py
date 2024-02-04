@@ -12,3 +12,8 @@ class TestUserRepositoryMock(TestCase):
         repo = UserRepositoryMock()
         user = repo.get_user(100)
         assert user is None
+
+    def test_get_all_students(self):
+        repo = UserRepositoryMock()
+        students = repo.get_all_students()
+        assert len(students) == 4

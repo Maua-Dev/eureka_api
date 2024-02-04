@@ -58,3 +58,6 @@ class UserRepositoryMock(IUserRepository):
             if user['user_id'] == user_id:
                 return user
         return None
+    
+    def get_all_students(self):
+        return [student for student in self.users if student["role"] == "STUDENT"]
