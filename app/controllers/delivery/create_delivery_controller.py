@@ -98,10 +98,10 @@ class CreateDeliveryController(IController):
         
         students_id = project['students']
         if user['role'] == 'STUDENT' and user['user_id'] not in students_id:
-            return StudentNotInProject()
+            raise StudentNotInProject()
         professors_id = project['professors']
         if user['role'] == 'PROFESSOR' and user['user_id'] not in professors_id:
-            return TeacherNotInProject()
+            raise TeacherNotInProject()
         
         response = self.delivery_repo.create_delivery(
             delivery=delivery, 
