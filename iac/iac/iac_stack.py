@@ -19,7 +19,6 @@ class IacStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        self.project_name = os.environ.get("PROJECT_NAME")
         self.aws_account_id = os.environ.get("AWS_ACCOUNT_ID")
         self.github_ref_name = os.environ.get("GITHUB_REF_NAME")
 
