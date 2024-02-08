@@ -1,0 +1,37 @@
+import os
+from aws_cdk import (
+    Duration,
+    Stack,
+    aws_lambda as _lambda,
+    CfnOutput,
+    aws_iam as iam,
+    SecretValue, aws_ecr, RemovalPolicy
+)
+from constructs import Construct
+from aws_cdk.aws_cloudwatch import ComparisonOperator
+from aws_cdk.aws_sns import Topic
+
+from aws_cdk.aws_cloudwatch_actions import SnsAction
+
+
+class IacStack(Stack):
+
+    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
+        super().__init__(scope, construct_id, **kwargs)
+
+        self.project_name = os.environ.get("PROJECT_NAME")
+        self.aws_account_id = os.environ.get("AWS_ACCOUNT_ID")
+        self.github_ref_name = os.environ.get("GITHUB_REF_NAME")
+
+        REMOVAL_POLICY = RemovalPolicy.RETAIN if 'prod' in self.github_ref else RemovalPolicy.DESTROY
+
+        self.ecr_repository = aws_ecr.Repository(
+            self, "EcrRepository",
+            repository_name=f"{self.project_name}-ecr",
+            removal_policy=REMOVAL_POLICY
+        )
+
+
+
+
+
