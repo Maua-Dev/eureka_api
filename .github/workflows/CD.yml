@@ -27,8 +27,8 @@ jobs:
 
         - name: Setting stage and stack name
           run: |
-              echo "STAGE=${{ github.ref_name }}" 
-              echo "STACK_NAME=Eureka2024Stack${{github.ref_name}}" >> $GITHUB_ENV
+              echo "STAGE=dev" 
+              echo "STACK_NAME=Eureka2024Stackdev" >> $GITHUB_ENV
 
         - uses: actions/setup-python@v4
           with:
