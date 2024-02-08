@@ -13,6 +13,8 @@ from aws_cdk.aws_sns import Topic
 
 from aws_cdk.aws_cloudwatch_actions import SnsAction
 
+from .rds_stack import RDSStack
+
 
 class IacStack(Stack):
 
@@ -32,6 +34,9 @@ class IacStack(Stack):
         )
 
         CfnOutput(self, "EcrRepositoryArn", value=self.ecr_repository.repository_uri)
+
+        self.rds_stack = RDSStack(self, "EurekaRDSStack")
+
 
 
 
