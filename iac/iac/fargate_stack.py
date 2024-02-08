@@ -16,6 +16,7 @@ class FargateStack(Construct):
     def __init__(
         self,
         scope: Construct,
+        construct_id: str,
         vpc: ec2.Vpc,
         ecs_cluster: ecs.Cluster,
         ecr_repository: ecr.Repository,
@@ -26,7 +27,7 @@ class FargateStack(Construct):
         task_max_scaling_capacity: int = 4,
         **kwargs,
     ) -> None:
-        super().__init__(scope, "EurekaFargateStack")
+        super().__init__(scope, construct_id)
         self.vpc = vpc
         self.ecs_cluster = ecs_cluster
         self.task_cpu = task_cpu
