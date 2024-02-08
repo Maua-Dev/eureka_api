@@ -21,8 +21,9 @@ class IacStack(Stack):
 
         self.aws_account_id = os.environ.get("AWS_ACCOUNT_ID")
         self.github_ref_name = os.environ.get("GITHUB_REF_NAME")
+        self.project_name = os.environ.get("PROJECT_NAME")
 
-        REMOVAL_POLICY = RemovalPolicy.RETAIN if 'prod' in self.github_ref else RemovalPolicy.DESTROY
+        REMOVAL_POLICY = RemovalPolicy.RETAIN if 'prod' in self.github_ref_name else RemovalPolicy.DESTROY
 
         self.ecr_repository = aws_ecr.Repository(
             self, "EcrRepository",
