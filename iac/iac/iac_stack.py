@@ -13,6 +13,8 @@ from aws_cdk.aws_sns import Topic
 
 from aws_cdk.aws_cloudwatch_actions import SnsAction
 
+from .fargate_stack import FargateStack
+from .network_stack import NetworkStack
 from .rds_stack import RDSStack
 
 
@@ -37,8 +39,8 @@ class IacStack(Stack):
 
         self.rds_stack = RDSStack(self)
 
+        self.network_stack = NetworkStack(self, "EurekaNetworkStack")
 
-
-
-
-
+        self.fargate_stack = FargateStack(self, "EurekaFargateStack", vpc=self.network_stack.vpc,
+                                          ecs_cluster=self.network_stack.ecs_cluster,
+                                          ecr_repository=self.ecr_repository)
