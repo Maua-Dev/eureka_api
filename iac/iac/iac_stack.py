@@ -31,6 +31,8 @@ class IacStack(Stack):
             removal_policy=REMOVAL_POLICY
         )
 
+        CfnOutput(self, "EcrRepositoryArn", value=self.ecr_repository.repository_uri)
+
 
 
 
