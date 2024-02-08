@@ -27,7 +27,7 @@ class IacStack(Stack):
 
         self.ecr_repository = aws_ecr.Repository(
             self, "EcrRepository",
-            repository_name=f"{self.project_name}Ecr",
+            repository_name=f"{self.project_name}Ecr".lower(),
             removal_policy=REMOVAL_POLICY
         )
 
