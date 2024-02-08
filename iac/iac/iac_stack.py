@@ -35,7 +35,7 @@ class IacStack(Stack):
 
         CfnOutput(self, "EcrRepositoryArn", value=self.ecr_repository.repository_uri)
 
-        self.rds_stack = RDSStack(self, "EurekaRDSStack")
+        self.rds_stack = RDSStack(self)
 
 
 
