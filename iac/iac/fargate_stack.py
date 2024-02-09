@@ -49,7 +49,7 @@ class FargateStack(Construct):
             desired_count=self.task_desired_count,  # Default is 1
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
                 image=ecs.ContainerImage.from_asset(
-                    directory="../../", file="Dockerfile", target="prod"
+                    directory="../", file="Dockerfile", target="prod"
                 ),
                 container_name=self.container_name,
                 container_port=8000,
