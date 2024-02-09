@@ -19,7 +19,6 @@ class FargateStack(Construct):
         construct_id: str,
         vpc: ec2.Vpc,
         ecs_cluster: ecs.Cluster,
-        ecr_repository: ecr.Repository,
         task_cpu: int = 256,
         task_memory_mib: int = 1024,
         task_desired_count: int = 2,
@@ -31,7 +30,6 @@ class FargateStack(Construct):
         self.vpc = vpc
         self.ecs_cluster = ecs_cluster
         self.task_cpu = task_cpu
-        self.ecr_repository = ecr_repository
         self.task_memory_mib = task_memory_mib
         self.task_desired_count = task_desired_count
         self.task_min_scaling_capacity = task_min_scaling_capacity
@@ -50,8 +48,8 @@ class FargateStack(Construct):
             memory_limit_mib=self.task_memory_mib,  # Default is 512
             desired_count=self.task_desired_count,  # Default is 1
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
-                image=ecs.ContainerImage.from_ecr_repository(
-                    repository=self.ecr_repository, tag="latest"
+                image=ecs.ContainerImage.from_asset(
+                    directory=".", file="Dockerfile", target="prod"
                 ),
                 container_name=self.container_name,
                 container_port=8000,

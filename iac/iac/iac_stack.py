@@ -29,18 +29,9 @@ class IacStack(Stack):
 
         REMOVAL_POLICY = RemovalPolicy.RETAIN if 'prod' in self.github_ref_name else RemovalPolicy.DESTROY
 
-        self.ecr_repository = aws_ecr.Repository(
-            self, "EcrRepository",
-            repository_name=f"{self.project_name}Ecr".lower(),
-            removal_policy=REMOVAL_POLICY
-        )
-
-        CfnOutput(self, "EcrRepositoryArn", value=self.ecr_repository.repository_uri)
-
         self.rds_stack = RDSStack(self)
 
         self.network_stack = NetworkStack(self, "EurekaNetworkStack")
 
         self.fargate_stack = FargateStack(self, "EurekaFargateStack", vpc=self.network_stack.vpc,
-                                          ecs_cluster=self.network_stack.ecs_cluster,
-                                          ecr_repository=self.ecr_repository)
+                                          ecs_cluster=self.network_stack.ecs_cluster)
