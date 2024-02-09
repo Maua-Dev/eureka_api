@@ -57,6 +57,7 @@ jobs:
         - name: Deploy with CDK
           run: |
             ls
+            pwd
             cd iac
             cdk synth
             cdk deploy --require-approval never 
