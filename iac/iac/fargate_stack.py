@@ -43,13 +43,10 @@ class FargateStack(Construct):
         self.alb_fargate_service = ecs_patterns.ApplicationLoadBalancedFargateService(
             self,
             f"MyDjangoApp",
-            protocol=elbv2.ApplicationProtocol.HTTPS,
+            protocol=elbv2.ApplicationProtocol.HTTP,
             redirect_http=True,
             platform_version=ecs.FargatePlatformVersion.VERSION1_4,
             cluster=self.ecs_cluster,  # Required
-            task_subnets=ec2.SubnetSelection(
-                subnet_type=ec2.SubnetType.PRIVATE_ISOLATED
-            ),
             cpu=self.task_cpu,  # Default is 256
             memory_limit_mib=self.task_memory_mib,  # Default is 512
             desired_count=self.task_desired_count,  # Default is 1
