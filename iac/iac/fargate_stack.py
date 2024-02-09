@@ -44,7 +44,6 @@ class FargateStack(Construct):
             self,
             f"MyDjangoApp",
             protocol=elbv2.ApplicationProtocol.HTTP,
-            redirect_http=True,
             platform_version=ecs.FargatePlatformVersion.VERSION1_4,
             cluster=self.ecs_cluster,  # Required
             cpu=self.task_cpu,  # Default is 256
