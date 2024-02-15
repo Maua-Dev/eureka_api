@@ -32,7 +32,7 @@ class IacStack(Stack):
 
         self.network_stack = NetworkStack(self, "EurekaNetworkStack")
 
-        self.rds_stack = RDSStack(self, self.network_stack.vpc)
+        # self.rds_stack = RDSStack(self, self.network_stack.vpc)
 
         self.fargate_stack = FargateStack(self, "EurekaFargateStack", vpc=self.network_stack.vpc,
                                           ecs_cluster=self.network_stack.ecs_cluster)
