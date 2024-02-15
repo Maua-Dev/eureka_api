@@ -19,7 +19,7 @@ class RDSStack(Construct):
             self,
             "RDS",
             engine=rds.DatabaseInstanceEngine.postgres(
-                version=rds.PostgresEngineVersion.VER_12_5
+                version=rds.PostgresEngineVersion.VER_13
             ),
             instance_type=ec2.InstanceType.of(
                 ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.MICRO
