@@ -29,9 +29,10 @@ class IacStack(Stack):
 
         REMOVAL_POLICY = RemovalPolicy.RETAIN if 'prod' in self.github_ref_name else RemovalPolicy.DESTROY
 
-        self.rds_stack = RDSStack(self)
 
         self.network_stack = NetworkStack(self, "EurekaNetworkStack")
+
+        self.rds_stack = RDSStack(self, self.network_stack.vpc)
 
         self.fargate_stack = FargateStack(self, "EurekaFargateStack", vpc=self.network_stack.vpc,
                                           ecs_cluster=self.network_stack.ecs_cluster)
