@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-&_0=l(yyud@f2kt67^1e)h^#_=gu!u8s*h7fnwtf2)e$1hk=x1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -69,10 +69,22 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'eureka_api.wsgi.application'
-
-
+#
+#
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Postgres2023!',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 
 DATABASES = {
     'default': {
@@ -80,7 +92,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'Postgres2023!',
-        'HOST': 'localhost',
+        'HOST': 'teste-eureka.c0niwjghm7wo.sa-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
