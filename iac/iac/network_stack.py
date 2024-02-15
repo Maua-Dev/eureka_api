@@ -16,7 +16,6 @@ class NetworkStack(Construct):
             self,
             "VPC",
             max_azs=2,  # default is all AZs in region
-            nat_gateways=0,  # No Nat GWs are required as we will add VPC endpoints
             enable_dns_hostnames=True,
             enable_dns_support=True,
         )
