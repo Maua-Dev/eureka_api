@@ -3,7 +3,9 @@ import os
 from aws_cdk import (
     CfnOutput, aws_cognito,
     aws_rds as rds,
-    RemovalPolicy
+    RemovalPolicy,
+    aws_ec2 as ec2,
+
 
 )
 from constructs import Construct
@@ -19,8 +21,8 @@ class RDSStack(Construct):
             engine=rds.DatabaseInstanceEngine.postgres(
                 version=rds.PostgresEngineVersion.VER_15_2
             ),
-            instance_type=rds.InstanceType.of(
-                rds.InstanceClass.BURSTABLE2, rds.InstanceSize.MICRO
+            instance_type=ec2.InstanceType.of(
+                ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.MICRO
             ),
             credentials=rds.Credentials.from_generated_secret("postgres"),
             removal_policy=RemovalPolicy.DESTROY,
