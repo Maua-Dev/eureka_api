@@ -17,6 +17,7 @@ Including another URLconf
 from django.urls import path
 
 from app.views.delivery_views import DeliveryViews
+from app.views.status import StatusViews
 from app.views.task_views import TaskViews
 from app.views.project_views import ProjectViews
 
@@ -28,4 +29,5 @@ urlpatterns = [
     path('get_projects_by_role', ProjectViews.get_projects_by_role, name='get_projects_by_role'),
     path('create_delivery', DeliveryViews.create_delivery, name='create_delivery'),
     path('get_deliveries', DeliveryViews.get_deliveries, name='get_deliveries'),
+    path('status', StatusViews.status, name='status'),
 ]
