@@ -44,7 +44,10 @@ class RoleForbiddenAction(BaseError):
 class AdvisorForbiddenAction(RoleForbiddenAction):
     def __init__(self):
         super().__init__(role='Orientador')
-
+        
+class ResponsibleForbiddenAction(RoleForbiddenAction):
+    def __init__(self):
+        super().__init__(role='Responsável')
 
 class StudentForbiddenAction(RoleForbiddenAction):
     def __init__(self):

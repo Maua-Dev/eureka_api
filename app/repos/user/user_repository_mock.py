@@ -31,13 +31,13 @@ class UserRepositoryMock(IUserRepository):
                 "user_id": 4,
                 "name": "CARLOS EDUARDO DANTAS DE MENEZES",
                 "email": "carlos.menezes@maua.br",
-                "role": "ADVISOR"
+                "role": "PROFESSOR" # advisor
             },
             {
                 "user_id": 5,
                 "name": "ANA PAULA GONCALVES SERRA",
                 "email": "ana.serra@maua.br",
-                "role": "RESPONSIBLE"
+                "role": "PROFESSOR" # responsible
             },
             {
                 "user_id": 6,
@@ -49,20 +49,27 @@ class UserRepositoryMock(IUserRepository):
                 "user_id": 7,
                 "name": "JOSE MARIA",
                 "email": "jose.maria@sbt.br",
-                "role": "RESPONSIBLE"	
+                "role": "PROFESSOR" # responsible	
             },
             {
                 "user_id": 8,
                 "name": "VANDERLEI CUNHA PARRO",
                 "email": "vcp@maua.br",
-                "role": "ADVISOR"
+                "role": "PROFESSOR" # advisor
             },
             {
                 "user_id": 9,
                 "name": "RODRIGO MORALES MILES",
                 "email": "rodrigo.miles@maua.br",
-                "role": "STUDENT"
+                "role": "STUDENT" # student without project
+            },
+            {
+                "user_id": 10,
+                "name": "FERNANDO ANDRADE RODRIGUES",
+                "email": "fernando.rodrigues@maua.br",
+                "role": "ADMIN"
             }
+            
         ]
 
     def get_user(self, user_id: int):
