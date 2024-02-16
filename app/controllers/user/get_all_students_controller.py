@@ -14,10 +14,16 @@ class GetAllStudentsController(IController):
             self.error_handling(request)
             response_data = self.business_logic(request)
 
-            return OK(
-                body=[student.to_dict() for student in response_data] if type(response_data[0]) != dict else response_data, # TODO: Refactor this (entity? repo use to dict? idk)
-                message="All students were successfully retrieved"
-            )
+            if len(response_data) == 0:
+                return OK(
+                    body=[],
+                    message="No students were found"
+                )
+            else:            
+                return OK(
+                    body=[student.to_dict() for student in response_data] if type(response_data[0]) != dict else response_data, # TODO: Refactor this (entity? repo use to dict? idk)
+                    message="All students were successfully retrieved"
+                )
 
         except Exception as err:
             return InternalServerError(

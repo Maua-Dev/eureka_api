@@ -14,10 +14,16 @@ class GetAllProfessorsController(IController):
             self.error_handling(request)
             response_data = self.business_logic(request)
 
-            return OK(
-                body=[professor.to_dict() for professor in response_data] if type(response_data[0]) != dict else response_data, # TODO: Refactor this (entity? repo use to dict? idk)
-                message="All professors were successfully retrieved"
-            )
+            if len(response_data) == 0:
+                return OK(
+                    body=[],
+                    message="No professors were found"
+                )
+            else:
+                return OK(
+                    body=[professor.to_dict() for professor in response_data] if type(response_data[0]) != dict else response_data, # TODO: Refactor this (entity? repo use to dict? idk)
+                    message="All professors were successfully retrieved"
+                )
 
         except Exception as err:
             return InternalServerError(
