@@ -61,5 +61,5 @@ class FargateStack(Construct):
         )
         # Set the health checks settings
         self.alb_fargate_service.target_group.configure_health_check(
-            path="/status/", healthy_threshold_count=3, unhealthy_threshold_count=2
+            path="/status", healthy_threshold_count=3, unhealthy_threshold_count=2
         )
