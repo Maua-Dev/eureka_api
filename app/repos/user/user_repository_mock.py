@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from app.enums.user_role_enum import USER_ROLE
+from app.enums.task_responsible_enum import TASK_RESPONSIBLE
 from app.repos.user.user_repository_interface import IUserRepository
 
 
