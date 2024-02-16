@@ -297,4 +297,4 @@ class Test_CreateDeliveryController(TestCase):
         response = controller(request)
 
         assert response.status_code == 403
-        assert response.message == "Orientador não tem permissão para realizar esta ação"   
+        assert response.message == "Professor não tem permissão para realizar esta ação"   
