@@ -23,6 +23,23 @@ class TestUpdateProjectController(TestCase):
 
         assert response.status_code == 200
         assert response.body['title'] == 'Estudando Computação Quântica'
+        
+    def test_update_project_controller_update_advisors(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "project_id": 1,
+                "advisors": [8],
+            },
+            method="PUT"
+        )
+
+        repo = ProjectRepositoryMock()
+        controller = UpdateProjectController(repo)
+        response = controller(request)
+
+        assert response.status_code == 200
+        assert response.body['advisors'] == [8]
 
     def test_update_project_controller_missing_project_id(self):
         request = DjangoHttpRequest(
@@ -56,6 +73,9 @@ class TestUpdateProjectController(TestCase):
 
         assert response.status_code == 404
         assert response.message == "Projeto não encontrado"
+        
+    
+        
 
 
 
