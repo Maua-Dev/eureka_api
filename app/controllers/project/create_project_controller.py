@@ -1,5 +1,5 @@
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import RoleCannotBeAnotherRole, StudentCannotBeAdvisor, StudentCannotBeResponsible, UserAlreadyInProject, MissingParameters, WrongTypeParameter, UserNotFound
+from app.helpers.errors.common_errors import AdvisorNotFound, ObjectNotFound, ResponsibleNotFound, RoleCannotBeAnotherRole, StudentCannotBeAdvisor, StudentCannotBeResponsible, StudentNotFound, UserAlreadyInProject, MissingParameters, WrongTypeParameter
 from app.helpers.http.http_codes import Created, Forbidden, InternalServerError, BadRequest, NotFound
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.project.project_repository_interface import IProjectRepository
@@ -22,7 +22,7 @@ class CreateProjectController(IController):
                 body=response_data,
                 message="The project was created successfully"
             )
-        except UserNotFound as err:
+        except ObjectNotFound as err:
             return NotFound(message=err.message)
             
         except WrongTypeParameter as err:
@@ -83,7 +83,7 @@ class CreateProjectController(IController):
             for student_id in request.data['students']:
                 student = self.user_repo.get_user(user_id=student_id)
                 if student is None:
-                    raise UserNotFound()
+                    raise StudentNotFound()
                 
                 student_projects = self.repo.get_projects_by_role(user_id=student_id)
                 if student_projects != []:
@@ -93,7 +93,7 @@ class CreateProjectController(IController):
             for advisor_id in request.data['advisors']:
                 advisor = self.user_repo.get_user(user_id=advisor_id)
                 if advisor is None:
-                    raise UserNotFound()
+                    raise AdvisorNotFound()
                 if advisor['role'] == 'STUDENT':
                     raise StudentCannotBeAdvisor()
                 
@@ -101,7 +101,7 @@ class CreateProjectController(IController):
             for responsible_id in request.data['responsibles']:
                 responsible = self.user_repo.get_user(user_id=responsible_id)
                 if responsible is None:
-                    raise UserNotFound()
+                    raise ResponsibleNotFound()
                 if responsible['role'] == 'STUDENT':
                     raise StudentCannotBeResponsible()
         

@@ -172,7 +172,7 @@ class TestCreateProjectController(TestCase):
         response = controller(request)
 
         assert response.status_code == 404
-        assert response.message == "Usuário não encontrado"
+        assert response.message == "Estudante não encontrado"
         
     def test_create_project_controller_advisor_not_found(self):
         user_repo = UserRepositoryMock()
@@ -196,7 +196,7 @@ class TestCreateProjectController(TestCase):
         response = controller(request)
 
         assert response.status_code == 404
-        assert response.message == "Usuário não encontrado"
+        assert response.message == "Orientador não encontrado"
         
     def test_create_project_controller_responsible_not_found(self):
         user_repo = UserRepositoryMock()
@@ -220,7 +220,7 @@ class TestCreateProjectController(TestCase):
         response = controller(request)
 
         assert response.status_code == 404
-        assert response.message == "Usuário não encontrado"
+        assert response.message == "Responsável não encontrado"
         
     def test_create_project_controller_student_in_two_projects(self):
         user_repo = UserRepositoryMock()

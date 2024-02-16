@@ -30,10 +30,21 @@ class DeliveryNotFound(ObjectNotFound):
     def __init__(self):
         super().__init__(model='Entrega', genre='a')
 
-
 class UserNotFound(ObjectNotFound):
     def __init__(self):
         super().__init__(model='Usuário', genre='o')
+        
+class StudentNotFound(ObjectNotFound):
+    def __init__(self):
+        super().__init__(model='Estudante', genre='o')
+
+class AdvisorNotFound(ObjectNotFound):
+    def __init__(self):
+        super().__init__(model='Orientador', genre='o')
+    
+class ResponsibleNotFound(ObjectNotFound):
+    def __init__(self):
+        super().__init__(model='Responsável', genre='o')
 
 class RoleForbiddenAction(BaseError):
     def __init__(self, role: str):

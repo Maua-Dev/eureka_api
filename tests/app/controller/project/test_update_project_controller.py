@@ -96,7 +96,7 @@ class TestUpdateProjectController(TestCase):
         response = controller(request)
 
         assert response.status_code == 404
-        assert response.message == "Usuário não encontrado"
+        assert response.message == "Estudante não encontrado"
         
     def test_update_project_controller_advisor_not_found(self):
         request = DjangoHttpRequest(
@@ -115,7 +115,7 @@ class TestUpdateProjectController(TestCase):
         response = controller(request)
 
         assert response.status_code == 404
-        assert response.message == "Usuário não encontrado"
+        assert response.message == "Orientador não encontrado"
         
     def test_update_project_controller_responsible_not_found(self):
         request = DjangoHttpRequest(
@@ -134,7 +134,7 @@ class TestUpdateProjectController(TestCase):
         response = controller(request)
 
         assert response.status_code == 404
-        assert response.message == "Usuário não encontrado"
+        assert response.message == "Responsável não encontrado"
         
     def test_update_project_controller_student_already_in_project(self):
         request = DjangoHttpRequest(
