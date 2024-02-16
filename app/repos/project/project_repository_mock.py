@@ -52,6 +52,8 @@ class ProjectRepositoryMock(IProjectRepository):
         def create_project(self, project):
             project['is_entrepreneurship'] = project.get("is_entrepreneurship", False)
             project['students'] = project.get("students", [])
+            project['advisors'] = project.get("advisors", [])
+            project['responsibles'] = project.get("responsibles", [])
             project["project_id"] = len(self.projects) + 1
             
             self.projects.append(project)

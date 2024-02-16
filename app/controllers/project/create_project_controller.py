@@ -62,12 +62,17 @@ class CreateProjectController(IController):
         if data.get('is_entrepreneurship') is None:
             raise MissingParameters('is_entrepreneurship', 'create_project')
 
-        if data.get('professors') is None:
-            raise MissingParameters('professors', 'create_project')
-        
         if data.get('students') is not None:
             if not isinstance(data['students'], list):
                 raise WrongTypeParameter('students')
+            
+        if data.get('advisors') is not None:
+            if not isinstance(data['advisors'], list):
+                raise WrongTypeParameter('advisors')
+            
+        if data.get('responsibles') is not None:
+            if not isinstance(data['responsibles'], list):
+                raise WrongTypeParameter('responsibles')
 
     def business_logic(self, request: HttpRequestModel):
         if request.data.get('students') is not None:
@@ -79,5 +84,17 @@ class CreateProjectController(IController):
                 student_projects = self.repo.get_projects_by_role(user_id=student_id)
                 if student_projects != []:
                     raise UserAlreadyInProject(role="Estudante")
+                
+        if request.data.get('advisors') is not None:
+            for advisor_id in request.data['advisors']:
+                advisor = self.user_repo.get_user(user_id=advisor_id)
+                if advisor is None:
+                    raise UserNotFound()
+                
+        if request.data.get('responsible') is not None:
+            for responsible_id in request.data['responsible']:
+                responsible = self.user_repo.get_user(user_id=responsible_id)
+                if responsible is None:
+                    raise UserNotFound()
         
         return self.repo.create_project(request.data)

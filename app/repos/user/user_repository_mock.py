@@ -56,6 +56,12 @@ class UserRepositoryMock(IUserRepository):
                 "name": "VANDERLEI CUNHA PARRO",
                 "email": "vcp@maua.br",
                 "role": "ADVISOR"
+            },
+            {
+                "user_id": 9,
+                "name": "RODRIGO MORALES MILES",
+                "email": "rodrigo.miles@maua.br",
+                "role": "STUDENT"
             }
         ]
 
