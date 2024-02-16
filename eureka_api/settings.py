@@ -92,7 +92,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'Postgres2023!',
-        'HOST': 'teste-eureka.c0niwjghm7wo.sa-east-1.rds.amazonaws.com',
+        'HOST': 'postgres.c0niwjghm7wo.sa-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
