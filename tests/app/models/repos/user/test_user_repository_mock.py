@@ -17,3 +17,8 @@ class TestUserRepositoryMock(TestCase):
         repo = UserRepositoryMock()
         students = repo.get_all_students()
         assert len(students) == 5
+        
+    def test_get_all_professors(self):
+        repo = UserRepositoryMock()
+        professors = repo.get_all_professors()
+        assert len(professors) == 4
