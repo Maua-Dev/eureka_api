@@ -87,8 +87,10 @@ class Environments:
     @staticmethod
     def get_user_repo() -> Type[IUserRepository]:
         if Environments.get_envs().stage == STAGE.TEST:
-            from app.repos.user.user_repository_mock import UserRepositoryMock
-            return UserRepositoryMock
+            from app.repos.user.user_repository_postgres import UserRepositoryPostgres
+            return UserRepositoryPostgres
+            # from app.repos.user.user_repository_mock import UserRepositoryMock
+            # return UserRepositoryMock
 
         elif Environments.get_envs().stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
             from app.repos.user.user_repository_postgres import UserRepositoryPostgres

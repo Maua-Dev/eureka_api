@@ -49,6 +49,12 @@ class UserRepositoryMock(IUserRepository):
                 "user_id": 7,
                 "name": "JOSE MARIA",
                 "email": "jose.maria@sbt.br",
+                "role": "RESPONSIBLE"	
+            },
+            {
+                "user_id": 8,
+                "name": "VANDERLEI CUNHA PARRO",
+                "email": "vcp@maua.br",
                 "role": "ADVISOR"
             }
         ]
