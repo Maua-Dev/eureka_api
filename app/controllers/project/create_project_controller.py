@@ -105,4 +105,14 @@ class CreateProjectController(IController):
                 if responsible['role'] == 'STUDENT':
                     raise StudentCannotBeResponsible()
         
-        return self.repo.create_project(request.data)
+        project_created = self.repo.create_project(request.data)
+        if project_created.get('students') is None:
+            project_created['students'] = []
+            
+        if project_created.get('advisors') is None:
+            project_created['advisors'] = []
+            
+        if project_created.get('responsibles') is None:
+            project_created['responsibles'] = []
+        
+        return project_created
