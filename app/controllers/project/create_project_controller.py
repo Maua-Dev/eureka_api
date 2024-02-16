@@ -1,5 +1,5 @@
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import UserAlreadyInProject, MissingParameters, WrongTypeParameter, UserNotFound
+from app.helpers.errors.common_errors import RoleCannotBeAnotherRole, StudentCannotBeAdvisor, StudentCannotBeResponsible, UserAlreadyInProject, MissingParameters, WrongTypeParameter, UserNotFound
 from app.helpers.http.http_codes import Created, Forbidden, InternalServerError, BadRequest, NotFound
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.project.project_repository_interface import IProjectRepository
@@ -31,8 +31,12 @@ class CreateProjectController(IController):
         except UserAlreadyInProject as err:
             return Forbidden(message=err.message)
 
+        except RoleCannotBeAnotherRole as err:
+            return Forbidden(message=err.message)
+        
         except MissingParameters as err:
             return BadRequest(message=err.message)
+        
 
         except Exception as err:
             return InternalServerError(
@@ -90,11 +94,15 @@ class CreateProjectController(IController):
                 advisor = self.user_repo.get_user(user_id=advisor_id)
                 if advisor is None:
                     raise UserNotFound()
+                if advisor['role'] == 'STUDENT':
+                    raise StudentCannotBeAdvisor()
                 
-        if request.data.get('responsible') is not None:
-            for responsible_id in request.data['responsible']:
+        if request.data.get('responsibles') is not None:
+            for responsible_id in request.data['responsibles']:
                 responsible = self.user_repo.get_user(user_id=responsible_id)
                 if responsible is None:
                     raise UserNotFound()
+                if responsible['role'] == 'STUDENT':
+                    raise StudentCannotBeResponsible()
         
         return self.repo.create_project(request.data)

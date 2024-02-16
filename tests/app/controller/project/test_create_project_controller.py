@@ -174,6 +174,54 @@ class TestCreateProjectController(TestCase):
         assert response.status_code == 404
         assert response.message == "Usuário não encontrado"
         
+    def test_create_project_controller_advisor_not_found(self):
+        user_repo = UserRepositoryMock()
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
+                "qualification": "Engenharia de Software",
+                "code": "ES-01",
+                "shift": "DIURNO",
+                "stand_number": "1",
+                "is_entrepreneurship": False,
+                "advisors": [len(user_repo.users)+1],
+                "students": [9]
+            },
+            method="POST"    
+        )
+
+        project_repo = ProjectRepositoryMock()
+        controller = CreateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 404
+        assert response.message == "Usuário não encontrado"
+        
+    def test_create_project_controller_responsible_not_found(self):
+        user_repo = UserRepositoryMock()
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
+                "qualification": "Engenharia de Software",
+                "code": "ES-01",
+                "shift": "DIURNO",
+                "stand_number": "1",
+                "is_entrepreneurship": False,
+                "responsibles": [len(user_repo.users)+1],
+                "students": [9]
+            },
+            method="POST"    
+        )
+
+        project_repo = ProjectRepositoryMock()
+        controller = CreateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 404
+        assert response.message == "Usuário não encontrado"
+        
     def test_create_project_controller_student_in_two_projects(self):
         user_repo = UserRepositoryMock()
 
@@ -294,5 +342,50 @@ class TestCreateProjectController(TestCase):
         assert response.status_code == 400
         assert response.message == "Field title is missing for method create_project"
 
+    def test_create_project_controller_student_cannot_be_advisor(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
+                "qualification": "Engenharia de Software",
+                "code": "ES-01",
+                "shift": "DIURNO",
+                "stand_number": "1",
+                "is_entrepreneurship": False,
+                "advisors": [9],
+                "students": [9]
+            },
+            method="POST"    
+        )
 
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        controller = CreateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
 
+        assert response.status_code == 403
+        assert response.message == "Estudante não pode ser Orientador"
+
+    def test_create_project_controller_student_cannot_be_responsible(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
+                "qualification": "Engenharia de Software",
+                "code": "ES-01",
+                "shift": "DIURNO",
+                "stand_number": "1",
+                "is_entrepreneurship": False,
+                "responsibles": [9],
+                "students": [9]
+            },
+            method="POST"    
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        controller = CreateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Estudante não pode ser Responsável"

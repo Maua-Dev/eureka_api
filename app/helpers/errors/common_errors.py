@@ -35,11 +35,21 @@ class UserNotFound(ObjectNotFound):
     def __init__(self):
         super().__init__(model='Usuário', genre='o')
 
-
 class RoleForbiddenAction(BaseError):
     def __init__(self, role: str):
         super().__init__(f'{role} não tem permissão para realizar esta ação')
 
+class RoleCannotBeAnotherRole(BaseError):
+    def __init__(self, role: str, another_role: str):
+        super().__init__(f"{role} não pode ser {another_role}")
+        
+class StudentCannotBeAdvisor(RoleCannotBeAnotherRole):
+    def __init__(self):
+        super().__init__(role='Estudante', another_role='Orientador')
+
+class StudentCannotBeResponsible(RoleCannotBeAnotherRole):
+    def __init__(self):
+        super().__init__(role='Estudante', another_role='Responsável')
 
 class AdvisorForbiddenAction(RoleForbiddenAction):
     def __init__(self):

@@ -3,6 +3,7 @@ from django.test import TestCase, RequestFactory
 from app.controllers.project.update_project_controller import UpdateProjectController
 from app.helpers.http.django_http_request import DjangoHttpRequest
 from app.repos.project.project_repository_mock import ProjectRepositoryMock
+from app.repos.user.user_repository_mock import UserRepositoryMock
 
 
 class TestUpdateProjectController(TestCase):
@@ -17,8 +18,9 @@ class TestUpdateProjectController(TestCase):
             method="PUT"
         )
 
-        repo = ProjectRepositoryMock()
-        controller = UpdateProjectController(repo)
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
         response = controller(request)
 
         assert response.status_code == 200
@@ -34,8 +36,9 @@ class TestUpdateProjectController(TestCase):
             method="PUT"
         )
 
-        repo = ProjectRepositoryMock()
-        controller = UpdateProjectController(repo)
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
         response = controller(request)
 
         assert response.status_code == 200
@@ -50,8 +53,9 @@ class TestUpdateProjectController(TestCase):
             method="PUT"
         )
 
-        repo = ProjectRepositoryMock()
-        controller = UpdateProjectController(repo)
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
         response = controller(request)
 
         assert response.status_code == 400
@@ -67,15 +71,144 @@ class TestUpdateProjectController(TestCase):
             method="PUT"
         )
 
-        repo = ProjectRepositoryMock()
-        controller = UpdateProjectController(repo)
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
         response = controller(request)
 
         assert response.status_code == 404
         assert response.message == "Projeto não encontrado"
         
-    
-        
+    def test_update_project_controller_student_not_found(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "project_id": 1,
+                "students": [1000],
+            },
+            method="PUT"
+        )
 
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 404
+        assert response.message == "Usuário não encontrado"
+        
+    def test_update_project_controller_advisor_not_found(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "project_id": 1,
+                "advisors": [1000],
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 404
+        assert response.message == "Usuário não encontrado"
+        
+    def test_update_project_controller_responsible_not_found(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "project_id": 1,
+                "responsibles": [1000],
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 404
+        assert response.message == "Usuário não encontrado"
+        
+    def test_update_project_controller_student_already_in_project(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "project_id": 2,
+                "students": [1],
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Estudante já cadastrado em um projeto"
+    
+    def test_update_project_controller_update_same_student(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "project_id": 1,
+                "students": [1],
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 200
+        
+    def test_update_project_controller_student_cannot_be_advisor(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "project_id": 1,
+                "advisors": [1],
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Estudante não pode ser Orientador"
+    
+    def test_update_project_controller_student_cannot_be_responsible(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "project_id": 1,
+                "responsibles": [1],
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Estudante não pode ser Responsável"
 
 
