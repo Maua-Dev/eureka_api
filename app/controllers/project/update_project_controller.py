@@ -60,12 +60,13 @@ class UpdateProjectController(IController):
             raise MissingParameters('user_id', 'update_project')
 
     def business_logic(self, request: HttpRequestModel):
+        user_id = request.data['user_id']
+        user = self.user_repo.get_user(user_id=user_id)
+        if user is None:
+            raise UserNotFound()
+        
         if request.data.get('students') is not None or request.data.get('advisors') is not None or request.data.get('responsibles') is not None:
-            user_id = request.data['user_id']
-            student = self.user_repo.get_user(user_id=user_id)
-            if student is None:
-                raise UserNotFound()
-            if student['role'] != 'ADMIN':
+            if user['role'] != 'ADMIN':
                 if student['role'] == 'STUDENT':
                     raise StudentForbiddenAction()
                 elif student['role'] == 'PROFESSOR':

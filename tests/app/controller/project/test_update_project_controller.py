@@ -360,3 +360,21 @@ class TestUpdateProjectController(TestCase):
         assert response.status_code == 403
         assert response.message == "Professor não tem permissão para realizar esta ação"
        
+    def test_update_project_controller_user_id_not_found(self):
+        user_repo = UserRepositoryMock()
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "user_id": len(user_repo.users)+2,
+                "project_id": 1,
+                "title": "Estudando Computação Quântica",
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 404
+        assert response.message == "Usuário não encontrado"
