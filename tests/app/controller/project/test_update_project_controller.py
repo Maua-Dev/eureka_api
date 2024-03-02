@@ -13,6 +13,7 @@ class TestUpdateProjectController(TestCase):
             request=None,
             data={
                 "project_id": 1,
+                "user_id": 10,
                 "title": "Estudando Computação Quântica",
             },
             method="PUT"
@@ -30,6 +31,7 @@ class TestUpdateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "project_id": 1,
                 "advisors": [8],
             },
@@ -48,6 +50,7 @@ class TestUpdateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "None",
             },
             method="PUT"
@@ -60,11 +63,30 @@ class TestUpdateProjectController(TestCase):
 
         assert response.status_code == 400
         assert response.message == "Field project_id is missing for method update_project"
+        
+    def test_update_project_controller_missing_user_id(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "project_id": 2,
+                "title": "None",
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 400
+        assert response.message == "Field user_id is missing for method update_project"
 
     def test_update_project_controller_not_found_project_id(self):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "project_id": 1000,
                 "title": "Estudando Computação Quântica",
             },
@@ -83,6 +105,7 @@ class TestUpdateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "project_id": 1,
                 "students": [1000],
             },
@@ -102,6 +125,7 @@ class TestUpdateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "project_id": 1,
                 "advisors": [1000],
             },
@@ -121,6 +145,7 @@ class TestUpdateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "project_id": 1,
                 "responsibles": [1000],
             },
@@ -140,6 +165,7 @@ class TestUpdateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "project_id": 2,
                 "students": [1],
             },
@@ -159,6 +185,7 @@ class TestUpdateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "project_id": 1,
                 "students": [1],
             },
@@ -177,6 +204,7 @@ class TestUpdateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "project_id": 1,
                 "advisors": [1],
             },
@@ -196,6 +224,7 @@ class TestUpdateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "project_id": 1,
                 "responsibles": [1],
             },
@@ -211,4 +240,103 @@ class TestUpdateProjectController(TestCase):
         assert response.status_code == 403
         assert response.message == "Estudante não pode ser Responsável"
 
+    def test_update_project_controller_just_admin_can_change_students_field(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "user_id": 1,
+                "project_id": 1,
+                "students": [1],
+            },
+            method="PUT"
+        )
 
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Estudante não tem permissão para realizar esta ação"
+        
+    def test_update_project_controller_just_admin_can_change_advisors_field(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "user_id": 1,
+                "project_id": 1,
+                "advisors": [4],
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Estudante não tem permissão para realizar esta ação"
+        
+    def test_update_project_controller_just_admin_can_change_responsibles_field(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "user_id": 1,
+                "project_id": 1,
+                "responsibles": [4],
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Estudante não tem permissão para realizar esta ação"
+        
+    def test_update_project_controller_user_cannot_change_responsibles_field(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "user_id": 1,
+                "project_id": 1,
+                "responsibles": [4],
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Estudante não tem permissão para realizar esta ação"
+        
+    def test_update_project_controller_professor_cannot_change_responsibles_field(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "user_id": 5,
+                "project_id": 1,
+                "responsibles": [4],
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Professor não tem permissão para realizar esta ação"
+       

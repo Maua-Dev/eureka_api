@@ -37,6 +37,7 @@ class TestProjectView(TransactionTestCase):
 
     def test_update_project_view(self):
         response = self.client.put('/update_project', {
+                "user_id": 10,
                 "project_id": 1,
                 "qualification": "LP 2",
             },
