@@ -46,6 +46,26 @@ class TestUpdateProjectController(TestCase):
         assert response.status_code == 200
         assert response.body['advisors'] == [8]
 
+    def test_update_project_controller_student_can_update_with_restrictions(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "user_id": 1,
+                "project_id": 1,
+                "title": "Estudando Computação Quântica",
+                
+            },
+            method="PUT"
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        controller = UpdateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 200
+        assert response.body['title'] == "Estudando Computação Quântica"
+
     def test_update_project_controller_missing_project_id(self):
         request = DjangoHttpRequest(
             request=None,
