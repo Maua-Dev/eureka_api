@@ -73,6 +73,10 @@ class ResponsibleForbiddenAction(RoleForbiddenAction):
 class StudentForbiddenAction(RoleForbiddenAction):
     def __init__(self):
         super().__init__(role='Estudante')
+        
+class ProfessorForbiddenAction(RoleForbiddenAction):
+    def __init__(self):
+        super().__init__(role='Professor')
 
 
 class StudentNotInProject(RoleForbiddenAction):
@@ -83,7 +87,6 @@ class StudentNotInProject(RoleForbiddenAction):
 class TeacherNotInProject(RoleForbiddenAction):
     def __init__(self):
         super().__init__(role='Professor')
-
 
 class WrongTypeParameter(BaseError):
     def __init__(self, field: str = ''):
