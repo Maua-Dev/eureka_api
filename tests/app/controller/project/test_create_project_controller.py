@@ -12,6 +12,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -48,6 +49,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -83,6 +85,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -118,6 +121,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -155,6 +159,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -179,6 +184,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -203,6 +209,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -228,6 +235,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -251,6 +259,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -275,6 +284,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -299,6 +309,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -315,14 +326,36 @@ class TestCreateProjectController(TestCase):
         user_repo = UserRepositoryMock()
         controller = CreateProjectController(project_repo=project_repo, user_repo=user_repo)
         response = controller(request)
+        
+    def test_create_project_controller_user_id_is_missing(self):
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
+                "qualification": "Engenharia de Software",
+                "code": "ES-01",
+                "shift": "DIURNO",
+                "stand_number": "1",
+                "is_entrepreneurship": False,
+                "advisors": [4],
+                "responsibles": [5]
+            },
+            method="POST"    
+        )
+
+        project_repo = ProjectRepositoryMock()
+        user_repo = UserRepositoryMock()
+        controller = CreateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
 
         assert response.status_code == 400
-        assert response.message == "Tipo de parâmetro incorreto para responsibles"
+        assert response.message == "Field user_id is missing for method create_project"
 
     def test_create_project_controller_missing_title(self):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": None,
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -346,6 +379,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -370,6 +404,7 @@ class TestCreateProjectController(TestCase):
         request = DjangoHttpRequest(
             request=None,
             data={
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
@@ -389,3 +424,81 @@ class TestCreateProjectController(TestCase):
 
         assert response.status_code == 403
         assert response.message == "Estudante não pode ser Responsável"
+
+    def test_create_project_controller_user_id_not_found(self):
+        user_repo = UserRepositoryMock()
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "user_id": len(user_repo.users)+2,
+                "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
+                "qualification": "Engenharia de Software",
+                "code": "ES-01",
+                "shift": "DIURNO",
+                "stand_number": "1",
+                "is_entrepreneurship": False,
+                "advisors": [4],
+                "responsibles": [5],
+                "students": [9]
+            },
+            method="POST"    
+        )
+
+        project_repo = ProjectRepositoryMock()
+        controller = CreateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 404
+        assert response.message == "Usuário não encontrado"
+        
+    def test_create_project_controller_user_cannot_execute_route(self):
+        user_repo = UserRepositoryMock()
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "user_id": 1,
+                "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
+                "qualification": "Engenharia de Software",
+                "code": "ES-01",
+                "shift": "DIURNO",
+                "stand_number": "1",
+                "is_entrepreneurship": False,
+                "advisors": [4],
+                "responsibles": [5],
+                "students": [9]
+            },
+            method="POST"    
+        )
+
+        project_repo = ProjectRepositoryMock()
+        controller = CreateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Estudante não tem permissão para realizar esta ação"
+        
+    def test_create_project_controller_professor_cannot_execute_route(self):
+        user_repo = UserRepositoryMock()
+        request = DjangoHttpRequest(
+            request=None,
+            data={
+                "user_id": 5,
+                "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
+                "qualification": "Engenharia de Software",
+                "code": "ES-01",
+                "shift": "DIURNO",
+                "stand_number": "1",
+                "is_entrepreneurship": False,
+                "advisors": [4],
+                "responsibles": [5],
+                "students": [9]
+            },
+            method="POST"    
+        )
+
+        project_repo = ProjectRepositoryMock()
+        controller = CreateProjectController(project_repo=project_repo, user_repo=user_repo)
+        response = controller(request)
+
+        assert response.status_code == 403
+        assert response.message == "Professor não tem permissão para realizar esta ação"

@@ -1,5 +1,5 @@
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import AdvisorNotFound, ObjectNotFound, ResponsibleNotFound, RoleCannotBeAnotherRole, StudentCannotBeAdvisor, StudentCannotBeResponsible, StudentNotFound, UserAlreadyInProject, MissingParameters, WrongTypeParameter
+from app.helpers.errors.common_errors import AdvisorNotFound, ObjectNotFound, ProfessorForbiddenAction, ResponsibleNotFound, RoleCannotBeAnotherRole, RoleForbiddenAction, StudentCannotBeAdvisor, StudentCannotBeResponsible, StudentForbiddenAction, StudentNotFound, UserAlreadyInProject, MissingParameters, UserNotFound, WrongTypeParameter
 from app.helpers.http.http_codes import Created, Forbidden, InternalServerError, BadRequest, NotFound
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.project.project_repository_interface import IProjectRepository
@@ -27,6 +27,9 @@ class CreateProjectController(IController):
             
         except WrongTypeParameter as err:
             return BadRequest(message=err.message)
+
+        except RoleForbiddenAction as err:
+            return Forbidden(message=err.message)
 
         except UserAlreadyInProject as err:
             return Forbidden(message=err.message)
@@ -77,8 +80,21 @@ class CreateProjectController(IController):
         if data.get('responsibles') is not None:
             if not isinstance(data['responsibles'], list):
                 raise WrongTypeParameter('responsibles')
+            
+        if data.get('user_id') is None:
+            raise MissingParameters('user_id', 'create_project')
 
     def business_logic(self, request: HttpRequestModel):
+        user = self.user_repo.get_user(user_id=request.data['user_id'])
+        if user is None:
+            raise UserNotFound()
+        
+        if user['role'] != 'ADMIN':
+            if user['role'] == 'STUDENT':
+                raise StudentForbiddenAction()
+            elif user['role'] == 'PROFESSOR':
+                raise ProfessorForbiddenAction()
+        
         if request.data.get('students') is not None:
             for student_id in request.data['students']:
                 student = self.user_repo.get_user(user_id=student_id)
@@ -105,7 +121,9 @@ class CreateProjectController(IController):
                 if responsible['role'] == 'STUDENT':
                     raise StudentCannotBeResponsible()
         
-        project_created = self.repo.create_project(request.data)
+        project_created = self.repo.create_project(
+            {key: value for key, value in request.data.items() if key != 'user_id'}
+        )
         if project_created.get('students') is None:
             project_created['students'] = []
             
@@ -114,5 +132,6 @@ class CreateProjectController(IController):
             
         if project_created.get('responsibles') is None:
             project_created['responsibles'] = []
+        
         
         return project_created

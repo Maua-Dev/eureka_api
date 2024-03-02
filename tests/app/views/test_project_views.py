@@ -22,6 +22,7 @@ class TestProjectView(TransactionTestCase):
 
     def test_create_project_view(self):
         response = self.client.post('/create_project', {
+                "user_id": 10,
                 "title": "Analisando a viabilidade de um sistema de monitoramento de idosos",
                 "qualification": "Engenharia de Software",
                 "code": "ES-01",
