@@ -1,5 +1,5 @@
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import AdvisorNotFound, MissingParameters, ObjectNotFound, ResponsibleNotFound, RoleCannotBeAnotherRole, StudentCannotBeAdvisor, StudentCannotBeResponsible, StudentNotFound, UserAlreadyInProject, UserNotFound
+from app.helpers.errors.common_errors import AdvisorForbiddenAction, AdvisorNotFound, MissingParameters, ObjectNotFound, ResponsibleForbiddenAction, ResponsibleNotFound, RoleCannotBeAnotherRole, StudentCannotBeAdvisor, StudentCannotBeResponsible, StudentForbiddenAction, StudentNotFound, UserAlreadyInProject, UserNotFound
 from app.helpers.http.http_codes import Forbidden, InternalServerError, BadRequest, OK, NotFound
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.project.project_repository_interface import IProjectRepository
@@ -52,9 +52,25 @@ class UpdateProjectController(IController):
 
         if data.get('project_id') is None:
             raise MissingParameters('project_id', 'update_project')
+        
+        if data.get('user_id') is None:
+            raise MissingParameters('user_id', 'update_project')
 
     def business_logic(self, request: HttpRequestModel):
-        
+        if request.data.get('students') is not None or request.data.get('advisors') is not None or request.data.get('responsibles') is not None:
+            user_id = request.data['user_id']
+            student = self.user_repo.get_user(user_id=user_id)
+            if student is None:
+                raise UserNotFound()
+            if student['role'] != 'ADMIN':
+                if student['role'] == 'STUDENT':
+                    raise StudentForbiddenAction()
+                elif student['role'] == 'ADVISOR':
+                    raise AdvisorForbiddenAction()
+                else: # responsible
+                    raise ResponsibleForbiddenAction()
+                    
+            
         if request.data.get('students') is not None:
             for student_id in request.data['students']:
                 student = self.user_repo.get_user(user_id=student_id)
