@@ -67,9 +67,9 @@ class UpdateProjectController(IController):
         
         if request.data.get('students') is not None or request.data.get('advisors') is not None or request.data.get('responsibles') is not None:
             if user['role'] != 'ADMIN':
-                if student['role'] == 'STUDENT':
+                if user['role'] == 'STUDENT':
                     raise StudentForbiddenAction()
-                elif student['role'] == 'PROFESSOR':
+                elif user['role'] == 'PROFESSOR':
                     raise ProfessorForbiddenAction()
                     
             

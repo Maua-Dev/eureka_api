@@ -260,7 +260,7 @@ class TestUpdateProjectController(TestCase):
         assert response.status_code == 403
         assert response.message == "Estudante não pode ser Responsável"
 
-    def test_update_project_controller_just_admin_can_change_students_field(self):
+    def test_update_project_controller_only_admin_can_change_students_field(self):
         request = DjangoHttpRequest(
             request=None,
             data={
@@ -280,7 +280,7 @@ class TestUpdateProjectController(TestCase):
         assert response.status_code == 403
         assert response.message == "Estudante não tem permissão para realizar esta ação"
         
-    def test_update_project_controller_just_admin_can_change_advisors_field(self):
+    def test_update_project_controller_only_admin_can_change_advisors_field(self):
         request = DjangoHttpRequest(
             request=None,
             data={
@@ -300,7 +300,7 @@ class TestUpdateProjectController(TestCase):
         assert response.status_code == 403
         assert response.message == "Estudante não tem permissão para realizar esta ação"
         
-    def test_update_project_controller_just_admin_can_change_responsibles_field(self):
+    def test_update_project_controller_only_admin_can_change_responsibles_field(self):
         request = DjangoHttpRequest(
             request=None,
             data={
