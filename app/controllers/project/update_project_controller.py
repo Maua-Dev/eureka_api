@@ -1,5 +1,5 @@
 from app.controllers.controller_interface import IController
-from app.helpers.errors.common_errors import AdvisorForbiddenAction, AdvisorNotFound, MissingParameters, ObjectNotFound, ResponsibleForbiddenAction, ResponsibleNotFound, RoleCannotBeAnotherRole, StudentCannotBeAdvisor, StudentCannotBeResponsible, StudentForbiddenAction, StudentNotFound, UserAlreadyInProject, UserNotFound
+from app.helpers.errors.common_errors import AdvisorForbiddenAction, AdvisorNotFound, MissingParameters, ObjectNotFound, ResponsibleForbiddenAction, ResponsibleNotFound, RoleCannotBeAnotherRole, RoleForbiddenAction, StudentCannotBeAdvisor, StudentCannotBeResponsible, StudentForbiddenAction, StudentNotFound, UserAlreadyInProject, UserNotFound
 from app.helpers.http.http_codes import Forbidden, InternalServerError, BadRequest, OK, NotFound
 from app.helpers.http.http_models import HttpRequestModel
 from app.repos.project.project_repository_interface import IProjectRepository
@@ -32,6 +32,9 @@ class UpdateProjectController(IController):
         
         except ObjectNotFound as err:
             return NotFound(message=err.message)
+
+        except RoleForbiddenAction as err:
+            return Forbidden(message=err.message)
 
         except UserAlreadyInProject as err:
             return Forbidden(message=err.message)
