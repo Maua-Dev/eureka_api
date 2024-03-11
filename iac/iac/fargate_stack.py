@@ -23,7 +23,7 @@ class FargateStack(Construct):
         rds_instance: rds.DatabaseInstance,
         task_cpu: int = 256,
         task_memory_mib: int = 1024,
-        task_desired_count: int = 2,
+        task_desired_count: int = 1,
         task_min_scaling_capacity: int = 2,
         task_max_scaling_capacity: int = 4,
         **kwargs,
