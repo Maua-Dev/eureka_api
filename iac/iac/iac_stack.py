@@ -33,5 +33,5 @@ class IacStack(Stack):
 
         self.rds_stack = RDSStack(self, self.network_stack.vpc)
 
-        self.fargate_stack = FargateStack(self, "EurekaFargateStack", rds_instance=self.rds_stack.rds, vpc=self.network_stack.vpc,
-                                          ecs_cluster=self.network_stack.ecs_cluster)
+        # self.fargate_stack = FargateStack(self, "EurekaFargateStack", rds_instance=self.rds_stack.rds, vpc=self.network_stack.vpc,
+        #                                   ecs_cluster=self.network_stack.ecs_cluster)
